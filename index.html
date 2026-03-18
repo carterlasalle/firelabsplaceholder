@@ -1,419 +1,1021 @@
+<!--
+  Phoenix Fire Labs — Public Website
+  Single-page company site for wildfire command intelligence.
+  Update when: branding changes, new products launch, team grows, domain/contact info changes.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoenix Fire Labs | System Initializing</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Teko:wght@300;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phoenix Fire Labs — Real-Time Wildfire Intelligence</title>
+  <meta name="description" content="Phoenix Fire Labs builds AI systems that convert live wildfire radio traffic into actionable map intelligence in seconds, helping command teams make faster, safer decisions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Figtree:wght@300..700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Tokens ─── */
+    :root {
+      --bg: #f6f3ed;
+      --bg-alt: #edeae2;
+      --text: #1a1815;
+      --text-mid: #3d3833;
+      --text-secondary: #5c5651;
+      --text-tertiary: #9c968f;
+      --accent: #a0440d;
+      --accent-warm: #c67b2e;
+      --accent-faint: rgba(160, 68, 13, 0.12);
+      --rule: #dad6cd;
+
+      --font-display: 'Fraunces', 'Georgia', serif;
+      --font-body: 'Figtree', system-ui, sans-serif;
+
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─── Reset ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.6;
+      font-kerning: normal;
+      overflow-x: hidden;
+    }
+
+    /* ─── Header ─── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .logo {
+      font-family: var(--font-body);
+      font-weight: 650;
+      font-size: 0.8125rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .header-link {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 200ms;
+    }
+    .header-link:hover { color: var(--accent); }
+
+    /* ─── Hero ─── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(2rem, 4vw, 4rem);
+      align-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 550;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.75rem;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeUp 600ms var(--ease-out-quart) 100ms forwards;
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+      font-weight: 750;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+    }
+
+    .hero-headline .line {
+      display: block;
+      overflow: hidden;
+    }
+    .hero-headline .line span {
+      display: block;
+      opacity: 0;
+      transform: translateY(105%);
+      animation: revealLine 800ms var(--ease-out-expo) forwards;
+    }
+    .hero-headline .line:nth-child(1) span { animation-delay: 250ms; }
+    .hero-headline .line:nth-child(2) span { animation-delay: 420ms; }
+
+    .hero-sub {
+      font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 52ch;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 700ms var(--ease-out-quart) 650ms forwards;
+    }
+
+    /* ─── Hero SVG ─── */
+    .hero-vis {
+      justify-self: center;
+      width: 100%;
+      max-width: 480px;
+      opacity: 0;
+      animation: fadeUp 800ms var(--ease-out-quart) 200ms forwards;
+    }
+
+    .hero-map { width: 100%; height: auto; display: block; }
+
+    .map-grid { opacity: 0; animation: fadeIn 800ms ease 300ms forwards; }
+
+    .contour {
+      fill: none;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+    .c1 { animation: drawPath 1.6s var(--ease-out-expo) 400ms forwards; }
+    .c2 { animation: drawPath 1.4s var(--ease-out-expo) 600ms forwards; }
+    .c-fire-draw {
+      animation:
+        drawPath 1.2s var(--ease-out-expo) 800ms forwards,
+        fadeOut 250ms ease 2000ms forwards;
+    }
+    .c-fire-dash {
+      fill: none;
+      stroke-dasharray: 0.025 0.013;
+      opacity: 0;
+      animation:
+        fadeIn 300ms ease 2000ms forwards,
+        fireDash 5s linear 2000ms infinite;
+    }
+    .c4 { animation: drawPath 1s var(--ease-out-expo) 1000ms forwards; }
+
+    .map-labels,
+    .map-coords,
+    .map-scale { opacity: 0; animation: fadeIn 600ms ease 2.2s forwards; }
+
+    .live-dot { animation: livePulse 2s ease-in-out infinite; }
+
+    .data-point {
+      opacity: 0;
+      animation: pointPop 500ms var(--ease-out-quart) forwards;
+    }
+    .dp1 { animation-delay: 1.8s; }
+    .dp2 { animation-delay: 1.95s; }
+    .dp3 { animation-delay: 2.1s; }
+
+    .point-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: ringPulse 3s ease-out infinite;
+    }
+    .dp1 .point-ring { animation-delay: 2.5s; }
+    .dp2 .point-ring { animation-delay: 2.8s; }
+    .dp3 .point-ring { animation-delay: 3.1s; }
+
+    /* ─── Section Tokens ─── */
+    .section-pad {
+      padding: clamp(3.5rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+    }
+
+    .section-line {
+      width: 48px;
+      height: 2px;
+      margin-bottom: 2.5rem;
+      display: block;
+    }
+    .section-line line {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      transition: stroke-dashoffset 700ms var(--ease-out-expo);
+    }
+    .section-line.visible line { stroke-dashoffset: 0; }
+
+    .section-label {
+      font-size: 0.6875rem;
+      font-weight: 550;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 1rem;
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 650;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+    }
+
+    .section-body {
+      font-size: clamp(0.9375rem, 1.3vw, 1rem);
+      line-height: 1.75;
+      color: var(--text-mid);
+      max-width: 62ch;
+    }
+
+    /* ─── Section Layouts ─── */
+    .split-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: center;
+    }
+    .split-section.reverse {
+      grid-template-columns: 1fr 1fr;
+    }
     
-    <style>
-        :root {
-            --c-bg: #050505;
-            --c-surface: #121212;
-            --c-text-main: #e0e0e0;
-            --c-text-muted: #555555;
-            --c-accent: #ff3c00; /* International Orange */
-            --c-grid: rgba(255, 255, 255, 0.03);
-            
-            --f-display: 'Teko', sans-serif;
-            --f-tech: 'Space Mono', monospace;
-            
-            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
-        }
+    .vis-container {
+      width: 100%;
+      max-width: 500px;
+      justify-self: center;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none; /* Custom cursor active */
-        }
+    /* ─── Problem ─── */
+    .problem { border-top: 1px solid var(--rule); }
 
-        body {
-            background-color: var(--c-bg);
-            color: var(--c-text-main);
-            font-family: var(--f-tech);
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
+    .problem-pull {
+      font-family: var(--font-display);
+      font-size: clamp(1.375rem, 2.8vw, 2rem);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.35;
+      color: var(--text);
+      max-width: 34ch;
+      margin-bottom: clamp(2rem, 4vw, 3rem);
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--accent);
+    }
+    .problem-pull em { font-style: normal; color: var(--accent); }
 
-        /* --- Background FX --- */
-        .texture-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            opacity: 0.06;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
+    .goal-line {
+      font-family: var(--font-display);
+      font-size: clamp(1.125rem, 2vw, 1.375rem);
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--text);
+      margin-top: clamp(2rem, 4vw, 3rem);
+      max-width: 50ch;
+    }
+    .goal-line strong { color: var(--accent); font-weight: 650; }
 
-        .grid-lines {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(var(--c-grid) 1px, transparent 1px),
-                linear-gradient(90deg, var(--c-grid) 1px, transparent 1px);
-            background-size: 80px 80px;
-            z-index: 0;
-        }
+    /* ─── MOCKINGBIRD ─── */
+    .mockingbird {
+      background: var(--bg-alt);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
 
-        .scan-line {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 15vh;
-            background: linear-gradient(to bottom, transparent, rgba(255, 60, 0, 0.08), transparent);
-            z-index: 1;
-            animation: scan 6s linear infinite;
-            pointer-events: none;
-        }
+    .mb-name {
+      font-family: var(--font-body);
+      font-size: clamp(1.5rem, 2.8vw, 2rem);
+      font-weight: 650;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem);
+    }
 
-        @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100vh); }
-        }
+    .mb-desc {
+      font-size: clamp(0.9375rem, 1.3vw, 1rem);
+      line-height: 1.75;
+      color: var(--text-mid);
+      max-width: 60ch;
+      margin-bottom: clamp(3rem, 6vw, 4.5rem);
+    }
 
-        /* --- Layout --- */
-        .main-wrapper {
-            position: relative;
-            z-index: 10;
-            height: 100%;
-            width: 100%;
-            padding: 3rem 4rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto 1fr auto;
-        }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(1.25rem, 3vw, 2rem);
+      position: relative;
+      max-width: 56rem;
+    }
 
-        /* --- Header --- */
-        header {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 1px solid var(--c-grid);
-            padding-bottom: 20px;
-        }
+    .flow::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      height: 1px;
+      background: linear-gradient(to right, var(--accent), var(--accent));
+      opacity: 0.2;
+    }
 
-        .brand-mark {
-            font-family: var(--f-display);
-            font-size: 1.5rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--c-text-main);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    .flow-step { position: relative; padding-top: 3.5rem; }
 
-        .brand-icon {
-            width: 12px;
-            height: 12px;
-            background: var(--c-accent);
-            box-shadow: 0 0 15px var(--c-accent);
-        }
+    .flow-icon {
+      width: 40px;
+      height: 40px;
+      color: var(--accent);
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var(--bg-alt);
+    }
+    .flow-icon svg { width: 100%; height: 100%; display: block; }
+    
+    .flow-step:hover .flow-icon {
+      animation: iconBounce 0.5s var(--ease-out-expo);
+    }
+    @keyframes iconBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
 
-        .system-status {
-            font-size: 0.7rem;
-            color: var(--c-text-muted);
-            text-align: right;
-            line-height: 1.5;
-        }
+    .flow-title {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--text);
+      margin-bottom: 0.375rem;
+    }
 
-        /* --- Hero Typography --- */
-        .hero-section {
-            grid-column: 1 / -1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            z-index: 5;
-        }
+    .flow-desc {
+      display: block;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    
+    .wave-anim {
+      animation: wavePulse 1.5s ease-in-out infinite alternate;
+    }
+    .wave-anim:nth-child(2) { animation-delay: 0.2s; }
+    .wave-anim:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes wavePulse {
+      0% { opacity: 0.3; transform: scaleY(0.8); }
+      100% { opacity: 1; transform: scaleY(1.2); }
+    }
+    
+    .scan-anim {
+      animation: scanMove 2s linear infinite;
+    }
+    @keyframes scanMove {
+      0% { transform: translateY(-5px); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(20px); opacity: 0; }
+    }
+    
+    .extract-anim {
+      animation: extractPop 2s var(--ease-out-expo) infinite;
+      transform-origin: center;
+    }
+    .extract-anim:nth-child(2) { animation-delay: 0.6s; }
+    .extract-anim:nth-child(3) { animation-delay: 1.2s; }
+    @keyframes extractPop {
+      0% { transform: scale(0); opacity: 0; }
+      20% { transform: scale(1.2); opacity: 1; }
+      30% { transform: scale(1); opacity: 1; }
+      80% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+    
+    .sync-anim {
+      animation: syncSpin 4s linear infinite;
+      transform-origin: 20px 18px;
+    }
+    @keyframes syncSpin {
+      100% { transform: rotate(360deg); }
+    }
 
-        h1 {
-            font-family: var(--f-display);
-            font-size: clamp(4rem, 13vw, 11rem);
-            line-height: 0.85;
-            text-transform: uppercase;
-            font-weight: 500;
-            margin-left: -0.05em;
-            color: var(--c-text-main);
-            mix-blend-mode: lighten;
-        }
+    /* ─── Platform ─── */
+    .capabilities {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+      margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    }
+    .capabilities li {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: var(--text);
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    .capabilities li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 8px;
+      height: 1.5px;
+      background: var(--accent);
+    }
 
-        .title-line {
-            display: block;
-            overflow: hidden;
-        }
+    /* ─── Founders ─── */
+    .founders-text {
+      font-size: clamp(0.9375rem, 1.3vw, 1rem);
+      line-height: 1.75;
+      color: var(--text-mid);
+      max-width: 60ch;
+    }
 
-        .title-line span {
-            display: block;
-            transform: translateY(100%);
-            animation: revealText 1s var(--ease-out) forwards;
-        }
+    /* ─── Footer ─── */
+    .site-footer {
+      margin-top: clamp(1rem, 3vw, 2rem);
+      padding: clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: start;
+    }
+    .footer-brand-block { min-width: 140px; }
+    .footer-brand {
+      font-weight: 650;
+      font-size: 0.8125rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 0.375rem;
+    }
+    .footer-copy { font-size: 0.75rem; color: var(--text-tertiary); }
+    .footer-blurb {
+      font-size: 0.8125rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 62ch;
+    }
 
-        .title-line:nth-child(1) span { animation-delay: 0.1s; }
-        .title-line:nth-child(2) span { animation-delay: 0.2s; color: var(--c-accent); }
-        .title-line:nth-child(3) span { animation-delay: 0.3s; }
+    /* ─── Keyframes ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes revealLine {
+      from { opacity: 0; transform: translateY(105%); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+    @keyframes drawPath {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes fireDash {
+      to { stroke-dashoffset: -0.076; }
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+    @keyframes pointPop {
+      from { opacity: 0; transform: scale(0); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes ringPulse {
+      0%   { transform: scale(1); opacity: 0.55; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
 
-        /* --- Coming Soon Module --- */
-        .status-module {
-            grid-column: 1 / 2;
-            grid-row: 3;
-            align-self: end;
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards 1s;
-        }
+    /* ─── Scroll Reveal ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 600ms var(--ease-out-quart),
+                  transform 600ms var(--ease-out-quart);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-        .status-header {
-            font-size: 0.75rem;
-            color: var(--c-accent);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 0.05em;
-        }
+    .stagger > .reveal { transition-delay: calc(var(--i, 0) * 70ms); }
 
-        .blink-tag {
-            animation: blink 1s steps(2, start) infinite;
-            background: var(--c-accent);
-            color: #000;
-            padding: 2px 6px;
-            font-weight: 700;
-            font-size: 0.65rem;
-        }
+    /* ─── Reduced Motion ─── */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-eyebrow,
+      .hero-headline .line span,
+      .hero-sub,
+      .hero-vis { animation: none; opacity: 1; transform: none; }
 
-        .progress-container {
-            width: 100%;
-            max-width: 300px;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            margin-bottom: 10px;
-            position: relative;
-            overflow: hidden;
-        }
+      .contour,
+      .c-fire-draw { animation: none; stroke-dashoffset: 0; }
+      .c-fire-dash { animation: none; opacity: 1; }
+      .c-fire-draw { opacity: 0; }
 
-        .progress-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: var(--c-accent);
-            box-shadow: 0 0 10px var(--c-accent);
-            animation: loadProgress 4s ease-out forwards 1.2s;
-        }
+      .map-grid, .map-labels, .map-coords, .map-scale { animation: none; opacity: 1; }
+      .data-point { animation: none; opacity: 1; transform: none; }
+      .point-ring { animation: none; opacity: 0; }
+      .live-dot { animation: none; }
+      .section-line line { stroke-dashoffset: 0; }
 
-        .status-details {
-            font-size: 0.7rem;
-            color: var(--c-text-muted);
-        }
+      .reveal { transition: opacity 200ms; transform: none !important; }
+      .reveal.visible { transform: none !important; }
+    }
 
-        /* --- Mission Statement --- */
-        .mission-statement {
-            grid-column: 2 / 3;
-            grid-row: 3;
-            align-self: end;
-            text-align: right;
-            border-right: 2px solid var(--c-accent);
-            padding-right: 2rem;
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards 1.4s;
-        }
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-vis {
+        max-width: 380px;
+        justify-self: start;
+      }
+      .split-section,
+      .split-section.reverse {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .split-section.reverse .vis-container {
+        order: -1;
+      }
+      .vis-container {
+        justify-self: start;
+        max-width: 400px;
+      }
+    }
 
-        .mission-text {
-            font-size: 1rem;
-            line-height: 1.5;
-            max-width: 400px;
-            margin-left: auto;
-            color: var(--c-text-main);
-        }
+    @media (max-width: 768px) {
+      .flow {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem 1.25rem;
+      }
+      .flow::before { display: none; }
+      .site-footer { grid-template-columns: 1fr; }
+    }
 
-        .mission-label {
-            display: block;
-            font-size: 0.7rem;
-            color: var(--c-text-muted);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        /* --- Custom Cursor --- */
-        .cursor-dot,
-        .cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
-        }
-
-        .cursor-dot {
-            width: 4px;
-            height: 4px;
-            background-color: var(--c-accent);
-        }
-
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
-
-        /* --- Animations --- */
-        @keyframes revealText {
-            0% { transform: translateY(100%); }
-            100% { transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes blink {
-            to { visibility: hidden; }
-        }
-
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            20% { width: 45%; }
-            50% { width: 60%; }
-            100% { width: 85%; } /* Stalls at 85% to indicate 'Coming Soon' */
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 900px) {
-            .main-wrapper {
-                padding: 2rem;
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 1fr auto auto;
-                gap: 2rem;
-            }
-            
-            .mission-statement {
-                grid-column: 1 / -1;
-                grid-row: 3;
-                text-align: left;
-                border-right: none;
-                border-left: 2px solid var(--c-accent);
-                padding-right: 0;
-                padding-left: 1.5rem;
-                margin-left: 0;
-            }
-
-            .mission-text {
-                margin-left: 0;
-            }
-
-            .status-module {
-                grid-column: 1 / -1;
-                grid-row: 4;
-            }
-        }
-    </style>
+    @media (max-width: 480px) {
+      .flow { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Texture & Grid -->
-    <div class="texture-overlay"></div>
-    <div class="grid-lines"></div>
-    <div class="scan-line"></div>
+  <header class="site-header">
+    <a href="/" class="logo">Phoenix Fire Labs</a>
+    <a href="mailto:team@phoenixfirelabs.com" class="header-link">Contact</a>
+  </header>
 
-    <!-- Custom Cursor -->
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-outline" id="cursor-outline"></div>
+  <main>
 
-    <div class="main-wrapper">
-        <!-- Header -->
-        <header>
-            <div class="brand-mark">
-                <div class="brand-icon"></div>
-                PFL // SYS.01
-            </div>
-            <div class="system-status">
-                SECURE CONNECTION<br>
-                <span id="clock">00:00:00 UTC</span>
-            </div>
-        </header>
+    <!-- ════ Hero ════ -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-eyebrow">Wildfire Command Intelligence</div>
+        <h1 class="hero-headline">
+          <span class="line"><span>Real-Time Wildfire Intelligence</span></span>
+          <span class="line"><span>for Incident Command</span></span>
+        </h1>
+        <p class="hero-sub">
+          Phoenix Fire Labs builds AI systems that convert live wildfire radio
+          traffic into actionable map intelligence in seconds, helping command
+          teams make faster, safer decisions when conditions are changing by
+          the minute.
+        </p>
+      </div>
 
-        <!-- Hero -->
-        <section class="hero-section">
-            <h1>
-                <div class="title-line"><span>Phoenix</span></div>
-                <div class="title-line"><span>Fire</span></div>
-                <div class="title-line"><span>Labs</span></div>
-            </h1>
-        </section>
+      <div class="hero-vis" aria-hidden="true">
+        <svg class="hero-map" viewBox="0 0 480 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Grid -->
+          <g class="map-grid">
+            <line x1="0" y1="100" x2="480" y2="100" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="0" y1="200" x2="480" y2="200" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="0" y1="300" x2="480" y2="300" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="120" y1="0" x2="120" y2="400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="240" y1="0" x2="240" y2="400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="360" y1="0" x2="360" y2="400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+          </g>
 
-        <!-- Coming Soon Module -->
-        <div class="status-module">
-            <div class="status-header">
-                <span class="blink-tag">LIVE</span>
-                DEPLOYMENT IMMINENT
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar"></div>
-            </div>
-            <div class="status-details">
-                SYSTEM INITIALIZATION: 85% COMPLETE<br>
-                ESTIMATED ARRIVAL: COMING SOON
-            </div>
+          <!-- Contour 1 — outermost -->
+          <path class="contour c1"
+            d="M 55,295 C 42,232 68,158 128,112 C 188,66 268,52 342,62 C 416,72 460,132 467,198 C 474,264 456,324 400,358 C 344,392 252,396 182,376 C 112,356 68,358 55,295 Z"
+            stroke="var(--text-tertiary)" stroke-width="0.75" pathLength="1" opacity="0.45"/>
+
+          <!-- Contour 2 -->
+          <path class="contour c2"
+            d="M 108,274 C 98,222 118,172 168,140 C 218,108 294,96 352,110 C 410,124 440,170 444,228 C 448,286 430,328 384,350 C 338,372 250,376 194,358 C 138,340 118,326 108,274 Z"
+            stroke="var(--text-tertiary)" stroke-width="0.75" pathLength="1" opacity="0.55"/>
+
+          <!-- Fire perimeter (draw version — fades out) -->
+          <path class="contour c-fire-draw"
+            d="M 162,255 C 157,218 172,184 212,160 C 252,136 318,127 360,144 C 402,161 422,200 420,240 C 418,280 402,312 370,330 C 338,348 264,352 222,334 C 180,316 167,292 162,255 Z"
+            stroke="var(--accent)" stroke-width="1.5" pathLength="1"/>
+
+          <!-- Fire perimeter (dash version — fades in, continuously animates) -->
+          <path class="c-fire-dash"
+            d="M 162,255 C 157,218 172,184 212,160 C 252,136 318,127 360,144 C 402,161 422,200 420,240 C 418,280 402,312 370,330 C 338,348 264,352 222,334 C 180,316 167,292 162,255 Z"
+            stroke="var(--accent)" stroke-width="1.5" pathLength="1"/>
+
+          <!-- Contour 4 — innermost -->
+          <path class="contour c4"
+            d="M 228,240 C 225,218 238,200 268,185 C 298,170 335,168 358,180 C 381,192 390,214 388,238 C 386,262 374,280 350,290 C 326,300 278,302 255,292 C 232,282 231,262 228,240 Z"
+            stroke="var(--accent)" stroke-width="0.75" pathLength="1" opacity="0.45"/>
+
+          <!-- Elevation labels -->
+          <g class="map-labels">
+            <text x="66" y="300" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif">1200</text>
+            <text x="116" y="280" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif">1400</text>
+            <text x="170" y="260" fill="var(--accent)" font-size="7.5" font-family="Figtree, system-ui, sans-serif" font-weight="500">1600</text>
+            <text x="235" y="245" fill="var(--accent)" font-size="7" font-family="Figtree, system-ui, sans-serif" opacity="0.55">1800</text>
+          </g>
+
+          <!-- Perimeter label -->
+          <g class="map-labels">
+            <text x="365" y="150" fill="var(--accent)" font-size="6.5" font-family="Figtree, system-ui, sans-serif" font-weight="600" letter-spacing="0.08em" opacity="0.7">ACTIVE PERIMETER</text>
+          </g>
+
+          <!-- Data points -->
+          <g class="data-points">
+            <g class="data-point dp1" transform="translate(142, 132)">
+              <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
+              <circle r="3.5" fill="var(--accent)"/>
+            </g>
+            <g class="data-point dp2" transform="translate(418, 198)">
+              <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
+              <circle r="3.5" fill="var(--accent)"/>
+            </g>
+            <g class="data-point dp3" transform="translate(305, 352)">
+              <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
+              <circle r="3.5" fill="var(--accent)"/>
+            </g>
+          </g>
+
+          <!-- Coordinates -->
+          <g class="map-coords">
+            <text x="385" y="24" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif" letter-spacing="0.04em">34.05°N</text>
+            <text x="420" y="388" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif" letter-spacing="0.04em">118.52°W</text>
+          </g>
+
+          <!-- LIVE indicator -->
+          <g class="map-labels" transform="translate(435, 50)">
+            <circle r="3" fill="var(--accent)" class="live-dot"/>
+            <text x="8" y="3.5" fill="var(--accent)" font-size="7" font-family="Figtree, system-ui, sans-serif" font-weight="700" letter-spacing="0.1em">LIVE</text>
+          </g>
+
+          <!-- Scale bar -->
+          <g class="map-scale" transform="translate(18, 380)">
+            <line x1="0" y1="0" x2="42" y2="0" stroke="var(--text-tertiary)" stroke-width="1"/>
+            <line x1="0" y1="-3" x2="0" y2="3" stroke="var(--text-tertiary)" stroke-width="1"/>
+            <line x1="42" y1="-3" x2="42" y2="3" stroke="var(--text-tertiary)" stroke-width="1"/>
+            <text x="10" y="12" fill="var(--text-tertiary)" font-size="7" font-family="Figtree, system-ui, sans-serif">500m</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ════ Problem ════ -->
+    <section class="problem section-pad stagger">
+      <div class="split-section">
+        <div class="content-container">
+          <svg class="section-line reveal" style="--i:0" viewBox="0 0 48 2" fill="none" preserveAspectRatio="none">
+            <line x1="0" y1="1" x2="48" y2="1" stroke="var(--accent)" stroke-width="2" pathLength="1"/>
+          </svg>
+          <blockquote class="problem-pull reveal" style="--i:1">
+            Critical updates trapped in voice traffic and manual logs—a dangerous
+            delay between what crews report and what command can <em>see</em>.
+          </blockquote>
+          <p class="section-body reveal" style="--i:2">
+            During major incidents, critical updates are often trapped in voice
+            traffic and manual logs, creating a dangerous delay between what crews
+            report and what command can see. Phoenix Fire Labs is building
+            MOCKINGBIRD, an AI-powered wildfire communications engine that listens
+            to tactical VHF channels, transcribes radio traffic in real time,
+            extracts key operational signals—locations, unit references, incident
+            events—and pushes structured updates into map-centric command workflows.
+          </p>
+          <p class="goal-line reveal" style="--i:3">
+            Our goal is simple: reduce radio-to-map latency from
+            <strong>hours</strong> to <strong>seconds</strong>.
+          </p>
         </div>
-
-        <!-- Mission Statement -->
-        <div class="mission-statement">
-            <span class="mission-label">Objective</span>
-            <p class="mission-text">
-                Building innovative, fast, and reliable solutions to Firefighting and Firefighting ICP.
-            </p>
+        <div class="vis-container reveal" style="--i:4" aria-hidden="true">
+          <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .latency-line {
+                stroke-dasharray: 4 6;
+                animation: dashFlow 20s linear infinite;
+              }
+              .latency-fast {
+                stroke-dasharray: 4 6;
+                animation: dashFlow 2s linear infinite;
+              }
+              @keyframes dashFlow {
+                to { stroke-dashoffset: -100; }
+              }
+              .pulse-node {
+                animation: livePulse 2s ease-in-out infinite;
+              }
+            </style>
+            <!-- Background Grid -->
+            <path d="M0 50h400M0 150h400M0 250h400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            
+            <!-- Old Way: Hours -->
+            <text x="0" y="30" fill="var(--text-tertiary)" font-family="Figtree" font-size="12" font-weight="600" letter-spacing="0.1em">THE OLD WAY: HOURS</text>
+            
+            <!-- Nodes -->
+            <circle cx="20" cy="80" r="6" fill="var(--text-tertiary)"/>
+            <circle cx="140" cy="80" r="6" fill="var(--text-tertiary)"/>
+            <circle cx="260" cy="80" r="6" fill="var(--text-tertiary)"/>
+            <circle cx="380" cy="80" r="6" fill="var(--text-tertiary)"/>
+            
+            <!-- Slow Lines -->
+            <path d="M 30 80 L 130 80" stroke="var(--text-tertiary)" stroke-width="1.5" class="latency-line"/>
+            <path d="M 150 80 L 250 80" stroke="var(--text-tertiary)" stroke-width="1.5" class="latency-line"/>
+            <path d="M 270 80 L 370 80" stroke="var(--text-tertiary)" stroke-width="1.5" class="latency-line"/>
+            
+            <!-- Labels -->
+            <text x="20" y="110" fill="var(--text-secondary)" font-family="Figtree" font-size="10" text-anchor="middle">Radio</text>
+            <text x="140" y="110" fill="var(--text-secondary)" font-family="Figtree" font-size="10" text-anchor="middle">Log</text>
+            <text x="260" y="110" fill="var(--text-secondary)" font-family="Figtree" font-size="10" text-anchor="middle">Review</text>
+            <text x="380" y="110" fill="var(--text-secondary)" font-family="Figtree" font-size="10" text-anchor="middle">Map</text>
+            
+            <!-- New Way: Seconds -->
+            <text x="0" y="190" fill="var(--accent)" font-family="Figtree" font-size="12" font-weight="600" letter-spacing="0.1em">PHOENIX: SECONDS</text>
+            
+            <circle cx="20" cy="240" r="6" fill="var(--accent)"/>
+            <circle cx="380" cy="240" r="6" fill="var(--accent)" class="pulse-node"/>
+            
+            <!-- Fast Line -->
+            <path d="M 30 240 L 370 240" stroke="var(--accent)" stroke-width="2" class="latency-fast"/>
+            
+            <!-- Labels -->
+            <text x="20" y="270" fill="var(--accent)" font-family="Figtree" font-size="10" text-anchor="middle" font-weight="600">Radio</text>
+            <text x="200" y="230" fill="var(--accent)" font-family="Figtree" font-size="10" text-anchor="middle" font-weight="600">AI Extraction</text>
+            <text x="380" y="270" fill="var(--accent)" font-family="Figtree" font-size="10" text-anchor="middle" font-weight="600">Map</text>
+          </svg>
         </div>
+      </div>
+    </section>
+
+    <!-- ════ MOCKINGBIRD ════ -->
+    <section class="mockingbird section-pad stagger">
+      <div class="section-label reveal" style="--i:0">Our Core System</div>
+      <h2 class="mb-name reveal" style="--i:1">MOCKINGBIRD</h2>
+      <p class="mb-desc reveal" style="--i:2">
+        An AI-powered wildfire communications engine that performs real-time
+        speech-to-structure on tactical VHF traffic—extracting location, unit,
+        and event signals and synchronizing them to geospatial command views.
+      </p>
+      <div class="flow stagger">
+        <div class="flow-step reveal" style="--i:3">
+          <div class="flow-icon">
+            <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <circle cx="12" cy="20" r="2.5" fill="currentColor" stroke="none"/>
+              <path d="M 18 14 A 8 8 0 0 1 18 26" class="wave-anim"/>
+              <path d="M 23 9 A 14 14 0 0 1 23 31" class="wave-anim"/>
+              <path d="M 28 4 A 20 20 0 0 1 28 36" class="wave-anim"/>
+            </svg>
+          </div>
+          <span class="flow-title">Listen</span>
+          <span class="flow-desc">Monitor tactical VHF radio channels during active incidents</span>
+        </div>
+        <div class="flow-step reveal" style="--i:4">
+          <div class="flow-icon">
+            <svg viewBox="0 0 40 40" fill="currentColor">
+              <rect x="3" y="16" width="2.5" height="8" rx="1.25" opacity="0.45"/>
+              <rect x="8" y="11" width="2.5" height="18" rx="1.25" opacity="0.6"/>
+              <rect x="13" y="14" width="2.5" height="12" rx="1.25" opacity="0.8"/>
+              <rect x="18" y="7" width="2.5" height="26" rx="1.25"/>
+              <rect x="23" y="12" width="2.5" height="16" rx="1.25" opacity="0.75"/>
+              <rect x="28" y="9" width="2.5" height="22" rx="1.25" opacity="0.55"/>
+              <rect x="33" y="15" width="2.5" height="10" rx="1.25" opacity="0.35"/>
+              <line x1="0" y1="20" x2="40" y2="20" stroke="var(--accent)" stroke-width="1" class="scan-anim" opacity="0.8"/>
+            </svg>
+          </div>
+          <span class="flow-title">Transcribe</span>
+          <span class="flow-desc">Real-time speech recognition on noisy field audio</span>
+        </div>
+        <div class="flow-step reveal" style="--i:5">
+          <div class="flow-icon">
+            <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M 9 8 L 5 8 L 5 32 L 9 32"/>
+              <path d="M 31 8 L 35 8 L 35 32 L 31 32"/>
+              <circle cx="15" cy="14" r="2.5" fill="currentColor" stroke="none" class="extract-anim"/>
+              <line x1="20" y1="14" x2="28" y2="14"/>
+              <circle cx="15" cy="21" r="2.5" fill="currentColor" stroke="none" class="extract-anim"/>
+              <line x1="20" y1="21" x2="26" y2="21"/>
+              <circle cx="15" cy="28" r="2.5" fill="currentColor" stroke="none" class="extract-anim"/>
+              <line x1="20" y1="28" x2="24" y2="28"/>
+            </svg>
+          </div>
+          <span class="flow-title">Extract</span>
+          <span class="flow-desc">Identify locations, units, and incident events from transcripts</span>
+        </div>
+        <div class="flow-step reveal" style="--i:6">
+          <div class="flow-icon">
+            <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+              <path d="M 20 5 C 28 5 34 11 34 19 C 34 29 20 37 20 37 C 20 37 6 29 6 19 C 6 11 12 5 20 5 Z"/>
+              <circle cx="20" cy="18" r="4.5" fill="currentColor" stroke="none"/>
+              <path d="M 20 10 L 20 14 M 20 22 L 20 26 M 14 18 L 10 18 M 30 18 L 26 18" stroke-width="1" class="sync-anim"/>
+            </svg>
+          </div>
+          <span class="flow-title">Synchronize</span>
+          <span class="flow-desc">Push structured updates to geospatial command views</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ Platform ════ -->
+    <section class="section-pad stagger">
+      <div class="split-section reverse">
+        <div class="content-container">
+          <div class="section-label reveal" style="--i:0">The Broader Vision</div>
+          <h2 class="section-heading reveal" style="--i:1">The Phoenix Platform</h2>
+          <p class="section-body reveal" style="--i:2">
+            The broader PHOENIX platform combines language AI, geospatial
+            intelligence, and operational workflow design to support a live common
+            operating picture for wildfire response. We are focused on practical
+            field utility.
+          </p>
+          <ul class="capabilities reveal" style="--i:3">
+            <li>Faster situational awareness during rapidly evolving incidents</li>
+            <li>Reduced analyst burden during peak radio traffic</li>
+            <li>Clearer decision support for resource allocation under pressure</li>
+          </ul>
+        </div>
+        <div class="vis-container reveal" style="--i:4" aria-hidden="true">
+          <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .orbit {
+                transform-origin: center;
+                animation: spin 30s linear infinite;
+              }
+              .orbit-reverse {
+                transform-origin: center;
+                animation: spin 40s linear infinite reverse;
+              }
+              .pulse-center {
+                animation: ringPulse 4s ease-out infinite;
+              }
+              @keyframes spin {
+                to { transform: rotate(360deg); }
+              }
+            </style>
+            
+            <!-- Center Core -->
+            <circle cx="200" cy="200" r="120" stroke="var(--rule)" stroke-width="1" stroke-dasharray="4 8"/>
+            <circle cx="200" cy="200" r="80" stroke="var(--rule)" stroke-width="1"/>
+            <circle cx="200" cy="200" r="40" fill="var(--accent-faint)"/>
+            <circle cx="200" cy="200" r="30" fill="var(--accent)" opacity="0.1" class="pulse-center"/>
+            <circle cx="200" cy="200" r="8" fill="var(--accent)"/>
+            
+            <!-- Orbital Rings -->
+            <g class="orbit">
+              <circle cx="200" cy="80" r="6" fill="var(--accent)"/>
+              <path d="M 200 86 L 200 110" stroke="var(--accent)" stroke-width="1.5"/>
+              <text x="200" y="65" fill="var(--text-secondary)" font-family="Figtree" font-size="10" text-anchor="middle" font-weight="600" transform="rotate(0 200 80)">Language AI</text>
+            </g>
+            
+            <g class="orbit-reverse">
+              <circle cx="80" cy="200" r="6" fill="var(--accent)"/>
+              <path d="M 86 200 L 110 200" stroke="var(--accent)" stroke-width="1.5"/>
+              <text x="60" y="203" fill="var(--text-secondary)" font-family="Figtree" font-size="10" text-anchor="end" font-weight="600" transform="rotate(0 80 200)">Geospatial</text>
+            </g>
+            
+            <g class="orbit">
+              <circle cx="320" cy="200" r="6" fill="var(--accent)"/>
+              <path d="M 314 200 L 290 200" stroke="var(--accent)" stroke-width="1.5"/>
+              <text x="340" y="203" fill="var(--text-secondary)" font-family="Figtree" font-size="10" text-anchor="start" font-weight="600" transform="rotate(0 320 200)">Workflows</text>
+            </g>
+            
+            <!-- Connecting lines -->
+            <path d="M 170 170 L 140 140 M 230 170 L 260 140 M 170 230 L 140 260 M 230 230 L 260 260" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ Founders ════ -->
+    <section class="section-pad stagger">
+      <div class="split-section">
+        <div class="content-container">
+          <svg class="section-line reveal" style="--i:0" viewBox="0 0 48 2" fill="none" preserveAspectRatio="none">
+            <line x1="0" y1="1" x2="48" y2="1" stroke="var(--accent)" stroke-width="2" pathLength="1"/>
+          </svg>
+          <h2 class="section-heading reveal" style="--i:1">Founded in Fire</h2>
+          <p class="founders-text reveal" style="--i:2">
+            Phoenix Fire Labs was founded by Carter LaSalle (Notre Dame) and
+            Jack Phelps (Princeton), who lost their homes in the 2025 Palisades
+            Fire. We are building this because we've lived the consequences of
+            delayed fireground intelligence—and we believe modern AI infrastructure
+            can materially improve outcomes for firefighters and communities.
+          </p>
+        </div>
+        <div class="vis-container reveal" style="--i:3" aria-hidden="true">
+          <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .year-line {
+                stroke-dasharray: 400;
+                stroke-dashoffset: 400;
+                animation: drawYear 2s var(--ease-out-quart) forwards;
+              }
+              .spark {
+                opacity: 0;
+                animation: sparkPop 0.5s var(--ease-out-expo) forwards;
+              }
+              .spark-pulse {
+                animation: livePulse 2s ease-in-out infinite;
+              }
+              .year-text {
+                opacity: 0;
+                animation: fadeIn 1s ease forwards;
+              }
+              @keyframes drawYear { to { stroke-dashoffset: 0; } }
+              @keyframes sparkPop {
+                from { opacity: 0; transform: scale(0.5); }
+                to { opacity: 1; transform: scale(1); }
+              }
+            </style>
+            
+            <!-- Abstract timeline / horizon -->
+            <path d="M 40 150 L 360 150" stroke="var(--rule)" stroke-width="1" class="year-line"/>
+            
+            <!-- 2025 Palisades Fire -->
+            <g transform="translate(120, 150)">
+              <line x1="0" y1="-20" x2="0" y2="20" stroke="var(--rule)" stroke-width="1" class="year-line" style="animation-delay: 0.5s"/>
+              <circle cx="0" cy="0" r="16" fill="var(--accent-faint)" class="spark spark-pulse" style="animation-delay: 0.8s"/>
+              <circle cx="0" cy="0" r="4" fill="var(--accent)" class="spark" style="animation-delay: 0.8s"/>
+              <text x="0" y="-30" fill="var(--text-secondary)" font-family="Figtree" font-size="10" text-anchor="middle" font-weight="600" class="year-text" style="animation-delay: 1s">2025</text>
+              <text x="0" y="35" fill="var(--accent)" font-family="Figtree" font-size="10" text-anchor="middle" font-weight="600" class="year-text" style="animation-delay: 1s">Palisades Fire</text>
+            </g>
+            
+            <!-- Phoenix Founded -->
+            <g transform="translate(280, 150)">
+              <line x1="0" y1="-20" x2="0" y2="20" stroke="var(--rule)" stroke-width="1" class="year-line" style="animation-delay: 1.2s"/>
+              <circle cx="0" cy="0" r="4" fill="var(--text-mid)" class="spark" style="animation-delay: 1.5s"/>
+              <text x="0" y="-30" fill="var(--text-secondary)" font-family="Figtree" font-size="10" text-anchor="middle" font-weight="600" class="year-text" style="animation-delay: 1.7s">Today</text>
+              <text x="0" y="35" fill="var(--text-mid)" font-family="Figtree" font-size="10" text-anchor="middle" font-weight="600" class="year-text" style="animation-delay: 1.7s">Phoenix Founded</text>
+            </g>
+            
+            <!-- Connecting Arc -->
+            <path d="M 120 150 C 160 80 240 80 280 150" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 6" fill="none" class="year-line" style="animation-delay: 1.8s; animation-duration: 1.5s;"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand-block">
+      <div class="footer-brand">Phoenix Fire Labs</div>
+      <div class="footer-copy">&copy; 2025 Phoenix Fire Labs</div>
     </div>
+    <p class="footer-blurb">
+      Phoenix Fire Labs is developing AI-native wildfire command software that
+      transforms live radio communications into structured operational
+      intelligence. Our core system, MOCKINGBIRD, performs real-time
+      speech-to-structure on tactical VHF traffic, extracting
+      location/unit/event signals and synchronizing them to geospatial command
+      views. By compressing communication-to-visibility latency from hours to
+      seconds, we improve situational awareness, reduce manual cognitive load,
+      and support faster tactical decisions in high-risk wildfire environments.
+      We are applying modern AI inference and workflow automation to one of
+      public safety's highest-impact coordination problems.
+    </p>
+  </footer>
 
-    <script>
-        // Cursor Logic
-        const cursorDot = document.getElementById('cursor-dot');
-        const cursorOutline = document.getElementById('cursor-outline');
-
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
+  <script>
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
         });
-
-        // UTC Clock
-        function updateTime() {
-            const now = new Date();
-            const timeString = now.toISOString().split('T')[1].split('.')[0] + ' UTC';
-            document.getElementById('clock').textContent = timeString;
-        }
-        setInterval(updateTime, 1000);
-        updateTime();
-    </script>
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
