@@ -34,9 +34,10 @@
             background-color: var(--c-bg);
             color: var(--c-text-main);
             font-family: var(--f-tech);
-            height: 100vh;
+            min-height: 100vh;
             width: 100vw;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -89,12 +90,69 @@
         .main-wrapper {
             position: relative;
             z-index: 10;
-            height: 100%;
+            min-height: 100vh;
             width: 100%;
             padding: 3rem 4rem;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: auto 1fr auto;
+        }
+
+        .website-copy {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto 4rem;
+            padding: 0 4rem;
+        }
+
+        .copy-card {
+            background: rgba(18, 18, 18, 0.9);
+            border: 1px solid var(--c-grid);
+            border-left: 2px solid var(--c-accent);
+            padding: 2rem;
+        }
+
+        .copy-intro,
+        .copy-version {
+            font-size: 0.8rem;
+            color: var(--c-text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .copy-headline {
+            font-family: var(--f-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .copy-subheadline {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .copy-section-label {
+            font-size: 0.75rem;
+            color: var(--c-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin: 1.25rem 0 0.75rem;
+        }
+
+        .copy-card p {
+            font-size: 0.95rem;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+
+        .copy-divider {
+            color: var(--c-text-muted);
+            margin: 1rem 0;
         }
 
         /* --- Header --- */
@@ -308,6 +366,10 @@
                 grid-template-rows: auto 1fr auto auto;
                 gap: 2rem;
             }
+
+            .website-copy {
+                padding: 0 2rem;
+            }
             
             .mission-statement {
                 grid-column: 1 / -1;
@@ -387,6 +449,30 @@
             </p>
         </div>
     </div>
+
+    <section class="website-copy">
+        <div class="copy-card">
+            <p class="copy-intro">et’s do it. Here’s paste-ready Website copy for NVIDIA Inception based on your docs/memory/drive-sync sources.</p>
+            <p class="copy-version">Version for website (recommended)</p>
+
+            <p class="copy-section-label">Headline</p>
+            <h2 class="copy-headline">Real-Time Wildfire Intelligence for Incident Command</h2>
+
+            <p class="copy-section-label">Subheadline</p>
+            <p class="copy-subheadline">Phoenix Fire Labs builds AI systems that convert live wildfire radio traffic into actionable map intelligence in seconds, helping command teams make faster, safer decisions when conditions are changing by the minute.</p>
+
+            <p class="copy-section-label">Body copy</p>
+            <p>During major incidents, critical updates are often trapped in voice traffic and manual logs, creating a dangerous delay between what crews report and what command can see. Phoenix Fire Labs is building MOCKINGBIRD, an AI-powered wildfire communications engine that listens to tactical VHF channels, transcribes radio traffic in real time, extracts key operational signals (locations, unit references, incident events), and pushes structured updates into map-centric command workflows.</p>
+            <p>Our goal is simple: reduce radio-to-map latency from hours to seconds.</p>
+            <p>The broader PHOENIX platform combines language AI, geospatial intelligence, and operational workflow design to support a live common operating picture for wildfire response. We are focused on practical field utility: faster situational awareness, reduced analyst burden during peak traffic, and clearer decision support for resource allocation under pressure.</p>
+            <p>Phoenix Fire Labs was founded by Carter LaSalle (Notre Dame) and Jack Phelps (Princeton), who lost their homes in the 2025 Palisades Fire. We are building this because we’ve lived the consequences of delayed fireground intelligence—and we believe modern AI infrastructure can materially improve outcomes for firefighters and communities.</p>
+
+            <p class="copy-divider">───</p>
+
+            <p class="copy-section-label">Short blurb (if you need a compact form field too)</p>
+            <p>Phoenix Fire Labs is developing AI-native wildfire command software that transforms live radio communications into structured operational intelligence. Our core system, MOCKINGBIRD, performs real-time speech-to-structure on tactical VHF traffic, extracting location/unit/event signals and synchronizing them to geospatial command views. By compressing communication-to-visibility latency from hours to seconds, we improve situational awareness, reduce manual cognitive load, and support faster tactical decisions in high-risk wildfire environments. We are applying modern AI inference and workflow automation to one of public safety’s highest-impact coordination problems.</p>
+        </div>
+    </section>
 
     <script>
         // Cursor Logic
