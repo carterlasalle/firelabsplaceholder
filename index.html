@@ -29,6 +29,9 @@
   <meta name="twitter:image" content="https://www.phoenixfirelabs.com/twitter-image.jpg">
 
   <link rel="canonical" href="https://www.phoenixfirelabs.com/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/apple-touch-icon.png" type="image/png" sizes="180x180">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Figtree:wght@300..700&display=swap" rel="stylesheet">
@@ -78,7 +81,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 5vw, 4rem);
+      padding: clamp(0.625rem, 1.2vw, 0.875rem) clamp(1.5rem, 5vw, 4rem);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -87,13 +90,28 @@
     }
 
     .logo {
-      font-family: var(--font-body);
-      font-weight: 650;
-      font-size: 0.8125rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       text-decoration: none;
+      flex-shrink: 0;
+      gap: 1px;
+    }
+
+    .logo-img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+
+    .logo-sub {
+      font-family: var(--font-body);
+      font-size: 0.5625rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-left: -0.06em;
     }
 
     .header-link {
@@ -472,14 +490,6 @@
       align-items: start;
     }
     .footer-brand-block { min-width: 140px; }
-    .footer-brand {
-      font-weight: 650;
-      font-size: 0.8125rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text);
-      margin-bottom: 0.375rem;
-    }
     .footer-copy { font-size: 0.75rem; color: var(--text-tertiary); }
     .footer-blurb {
       font-size: 0.8125rem;
@@ -645,7 +655,10 @@
 <body>
 
   <header class="site-header">
-    <a href="/" class="logo">Phoenix Fire Labs</a>
+    <a href="/" class="logo">
+      <img src="orangeAndPhoenix.png" alt="Phoenix Fire Labs" class="logo-img" />
+      <span class="logo-sub">Fire Labs</span>
+    </a>
     <a href="mailto:founders@phoenixfirelabs.com" class="header-link">Contact</a>
   </header>
 
@@ -1061,8 +1074,8 @@
 
   <footer class="site-footer">
     <div class="footer-brand-block">
-      <div class="footer-brand">Phoenix Fire Labs</div>
-      <div class="footer-copy">&copy; 2025 Phoenix Fire Labs</div>
+      <img src="allblack.png" alt="Phoenix Fire Labs" style="height:32px;width:auto;display:block;margin-bottom:0.5rem;" />
+      <div class="footer-copy">&copy; 2026 Phoenix Fire Labs</div>
       <img
         src="nvidia-inception-program-badge-rgb-for-screen.svg"
         alt="NVIDIA Inception Program"
