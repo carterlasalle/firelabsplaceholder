@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Figtree:wght@300..700&display=swap" rel="stylesheet">
   <style>
+    /* ─── Tokens ─── */
     :root {
       --bg: #f6f3ed;
       --bg-alt: #edeae2;
@@ -26,6 +27,9 @@
 
       --font-display: 'Fraunces', 'Georgia', serif;
       --font-body: 'Figtree', system-ui, sans-serif;
+
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,10 +49,16 @@
       font-family: var(--font-body);
       font-weight: 400;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    header {
-      padding: clamp(0.875rem, 1.6vw, 1.125rem) clamp(1.5rem, 5vw, 4rem);
+    /* ─── Header ─── */
+    .site-header {
+      padding: clamp(0.625rem, 1.2vw, 0.875rem) clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
       border-bottom: 1px solid var(--rule);
     }
 
@@ -60,10 +70,9 @@
       gap: 1px;
     }
 
-    .logo-img { height: 40px; width: auto; display: block; }
+    .logo-img { height: 44px; width: auto; display: block; }
 
     .logo-sub {
-      font-family: var(--font-body);
       font-size: 0.5625rem;
       font-weight: 600;
       letter-spacing: 0.12em;
@@ -72,143 +81,370 @@
       margin-left: -0.06em;
     }
 
-    main {
+    .header-link {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 200ms;
+    }
+    .header-link:hover { color: var(--accent); }
+
+    /* ─── Hero (reused from homepage) ─── */
+    .hero {
       flex: 1;
-      display: flex;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(2rem, 4vw, 4rem);
       align-items: center;
-      justify-content: center;
-      padding: clamp(2.5rem, 7vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
     }
 
-    .gate-card { max-width: 28rem; width: 100%; }
-
-    .gate-eyebrow {
+    .hero-eyebrow {
       font-size: 0.6875rem;
       font-weight: 550;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeUp 600ms var(--ease-out-quart) 100ms forwards;
     }
 
-    .gate-heading {
+    .hero-headline {
       font-family: var(--font-display);
-      font-size: clamp(1.875rem, 3.6vw, 2.5rem);
+      font-size: clamp(2.25rem, 4.5vw, 3.75rem);
       font-weight: 750;
-      line-height: 1.1;
+      line-height: 1.08;
       letter-spacing: -0.02em;
       color: var(--text);
-      margin-bottom: 1.25rem;
+      margin-bottom: clamp(1.5rem, 3vw, 2rem);
     }
 
-    .gate-body {
-      font-size: 0.9375rem;
-      line-height: 1.75;
-      color: var(--text-mid);
-      max-width: 44ch;
-      margin-bottom: 2.25rem;
+    .hero-headline .line {
+      display: block;
+      overflow: hidden;
+      padding-bottom: 0.12em;
+      margin-bottom: -0.12em;
     }
+    .hero-headline .line span {
+      display: block;
+      opacity: 0;
+      transform: translateY(105%);
+      animation: revealLine 800ms var(--ease-out-expo) forwards;
+    }
+    .hero-headline .line:nth-child(1) span { animation-delay: 250ms; }
+    .hero-headline .line:nth-child(2) span { animation-delay: 420ms; }
 
-    .gate-body a {
+    .hero-sub {
+      font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 48ch;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 700ms var(--ease-out-quart) 650ms forwards;
+    }
+    .hero-sub a {
       color: var(--accent);
       text-decoration: underline;
       text-decoration-color: var(--accent-faint);
       text-underline-offset: 2px;
     }
-    .gate-body a:hover { color: var(--accent-warm); }
+    .hero-sub a:hover { color: var(--accent-warm); }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.625rem;
-      max-width: 22rem;
+    .hero-vis {
+      justify-self: center;
+      width: 100%;
+      max-width: 480px;
+      opacity: 0;
+      animation: fadeUp 800ms var(--ease-out-quart) 200ms forwards;
     }
+    .hero-map { width: 100%; height: auto; display: block; }
+    .map-grid { opacity: 0; animation: fadeIn 800ms ease 300ms forwards; }
+    .contour { fill: none; stroke-dasharray: 1; stroke-dashoffset: 1; }
+    .c1 { animation: drawPath 1.6s var(--ease-out-expo) 400ms forwards; }
+    .c2 { animation: drawPath 1.4s var(--ease-out-expo) 600ms forwards; }
+    .c-fire-draw {
+      animation:
+        drawPath 1.2s var(--ease-out-expo) 800ms forwards,
+        fadeOut 250ms ease 2000ms forwards;
+    }
+    .c-fire-dash {
+      fill: none;
+      stroke-dasharray: 0.025 0.013;
+      opacity: 0;
+      animation:
+        fadeIn 300ms ease 2000ms forwards,
+        fireDash 5s linear 2000ms infinite;
+    }
+    .c4 { animation: drawPath 1s var(--ease-out-expo) 1000ms forwards; }
+    .map-labels, .map-coords, .map-scale { opacity: 0; animation: fadeIn 600ms ease 2.2s forwards; }
+    .live-dot { animation: livePulse 2s ease-in-out infinite; }
+    .data-point { opacity: 0; animation: pointPop 500ms var(--ease-out-quart) forwards; }
+    .dp1 { animation-delay: 1.8s; }
+    .dp2 { animation-delay: 1.95s; }
+    .dp3 { animation-delay: 2.1s; }
+    .point-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: ringPulse 3s ease-out infinite;
+    }
+    .dp1 .point-ring { animation-delay: 2.5s; }
+    .dp2 .point-ring { animation-delay: 2.8s; }
+    .dp3 .point-ring { animation-delay: 3.1s; }
 
-    label {
+    /* ─── Gate form ─── */
+    .gate-label {
       font-size: 0.6875rem;
       font-weight: 550;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--text-tertiary);
+      margin-top: clamp(1.75rem, 3vw, 2.5rem);
+      margin-bottom: 0.625rem;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 700ms var(--ease-out-quart) 800ms forwards;
     }
 
-    input[type="password"] {
+    .gate-form {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 26rem;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 700ms var(--ease-out-quart) 850ms forwards;
+    }
+
+    .gate-form input[type="password"] {
+      flex: 1;
+      min-width: 0;
       font-family: var(--font-body);
-      font-size: 1rem;
+      font-size: 0.9375rem;
       color: var(--text);
       background: #fff;
       border: 1px solid var(--rule);
-      padding: 0.75rem 0.875rem;
+      border-radius: 3px;
+      padding: 0.75rem 0.9375rem;
       outline: none;
       transition: border-color 150ms;
     }
-    input[type="password"]:focus { border-color: var(--accent); }
+    .gate-form input[type="password"]:focus { border-color: var(--accent); }
 
-    button {
+    .gate-form button {
       font-family: var(--font-body);
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
       font-weight: 600;
       letter-spacing: 0.02em;
       color: #fff;
       background: var(--accent);
       border: none;
-      padding: 0.8125rem 1.5rem;
-      margin-top: 0.5rem;
+      border-radius: 3px;
+      padding: 0 1.5rem;
       cursor: pointer;
       transition: background 150ms;
+      flex-shrink: 0;
     }
-    button:hover { background: var(--accent-warm); }
+    .gate-form button:hover { background: var(--accent-warm); }
 
     .gate-error {
-      display: none;
+      display: flex;
+      align-items: baseline;
+      gap: 0.625rem;
       font-size: 0.8125rem;
       color: var(--accent);
-      background: var(--accent-faint);
-      border-left: 2px solid var(--accent);
-      padding: 0.75rem 1rem;
-      margin-bottom: 1.25rem;
+      font-weight: 500;
+      margin-top: clamp(1.75rem, 3vw, 2.5rem);
+      max-width: 26rem;
+    }
+    .gate-error::before {
+      content: '';
+      width: 8px;
+      height: 1.5px;
+      background: var(--accent);
+      flex-shrink: 0;
+      transform: translateY(-2px);
     }
 
-    footer {
+    /* ─── Footer ─── */
+    .site-footer {
       padding: clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 5vw, 4rem);
-      font-size: 0.75rem;
-      color: var(--text-tertiary);
       border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .footer-copy { font-size: 0.75rem; color: var(--text-tertiary); }
+
+    /* ─── Keyframes ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes revealLine {
+      from { opacity: 0; transform: translateY(105%); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes drawPath { to { stroke-dashoffset: 0; } }
+    @keyframes fireDash { to { stroke-dashoffset: -0.076; } }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+    @keyframes pointPop {
+      from { opacity: 0; transform: scale(0); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes ringPulse {
+      0%   { transform: scale(1); opacity: 0.55; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+
+    /* ─── Reduced Motion ─── */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-eyebrow, .hero-headline .line span, .hero-sub, .hero-vis,
+      .gate-label, .gate-form { animation: none; opacity: 1; transform: none; }
+      .contour, .c-fire-draw { animation: none; stroke-dashoffset: 0; }
+      .c-fire-dash { animation: none; opacity: 1; }
+      .c-fire-draw { opacity: 0; }
+      .map-grid, .map-labels, .map-coords, .map-scale { animation: none; opacity: 1; }
+      .data-point { animation: none; opacity: 1; transform: none; }
+      .point-ring { animation: none; opacity: 0; }
+      .live-dot { animation: none; }
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-vis { max-width: 380px; justify-self: start; }
+    }
+    @media (max-width: 480px) {
+      .gate-form { flex-direction: column; }
+      .gate-form button { padding: 0.8125rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <header>
+  <header class="site-header">
     <a href="/" class="logo">
       <img src="orangeAndPhoenix.png" alt="Phoenix Fire Labs" class="logo-img" />
       <span class="logo-sub">Fire Labs</span>
     </a>
+    <a href="mailto:founders@phoenixfirelabs.com" class="header-link">Contact</a>
   </header>
 
   <main>
-    <div class="gate-card">
-      <div class="gate-eyebrow">Private Preview</div>
-      <h1 class="gate-heading">Hey! You found us.</h1>
-      <p class="gate-body">
-        We're building something pretty awesome, but we aren't ready to show
-        everyone just yet. Reach out to
-        <a href="mailto:founders@phoenixfirelabs.com">founders@phoenixfirelabs.com</a>
-        to learn more — and maybe even get the secret password to our site!
-      </p>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-eyebrow">Private Preview</div>
+        <h1 class="hero-headline">
+          <span class="line"><span>Hey!</span></span>
+          <span class="line"><span>You found us.</span></span>
+        </h1>
+        <p class="hero-sub">
+          We're building something pretty awesome, but we aren't ready to show
+          everyone just yet. Reach out to
+          <a href="mailto:founders@phoenixfirelabs.com">founders@phoenixfirelabs.com</a>
+          to learn more — and maybe even get the secret password to our site!
+        </p>
 
-      <div class="gate-error" id="login-error">That password didn't work. Give it another try.</div>
+        <div class="gate-error" id="login-error" style="display:none;">That password didn't work — give it another try.</div>
 
-      <form method="POST" action="/api/login">
-        <input type="hidden" name="redirect" id="redirect-field" value="/">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" autocomplete="current-password" autofocus required>
-        <button type="submit">Enter</button>
-      </form>
-    </div>
+        <div class="gate-label">Password</div>
+        <form method="POST" action="/api/login" class="gate-form">
+          <input type="hidden" name="redirect" id="redirect-field" value="/">
+          <input type="password" id="password" name="password" autocomplete="current-password" autofocus required>
+          <button type="submit">Enter</button>
+        </form>
+      </div>
+
+      <div class="hero-vis" aria-hidden="true">
+        <svg class="hero-map" viewBox="0 0 480 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g class="map-grid">
+            <line x1="0" y1="100" x2="480" y2="100" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="0" y1="200" x2="480" y2="200" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="0" y1="300" x2="480" y2="300" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="120" y1="0" x2="120" y2="400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="240" y1="0" x2="240" y2="400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+            <line x1="360" y1="0" x2="360" y2="400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
+          </g>
+
+          <path class="contour c1"
+            d="M 55,295 C 42,232 68,158 128,112 C 188,66 268,52 342,62 C 416,72 460,132 467,198 C 474,264 456,324 400,358 C 344,392 252,396 182,376 C 112,356 68,358 55,295 Z"
+            stroke="var(--text-tertiary)" stroke-width="0.75" pathLength="1" opacity="0.45"/>
+
+          <path class="contour c2"
+            d="M 108,274 C 98,222 118,172 168,140 C 218,108 294,96 352,110 C 410,124 440,170 444,228 C 448,286 430,328 384,350 C 338,372 250,376 194,358 C 138,340 118,326 108,274 Z"
+            stroke="var(--text-tertiary)" stroke-width="0.75" pathLength="1" opacity="0.55"/>
+
+          <path class="contour c-fire-draw"
+            d="M 162,255 C 157,218 172,184 212,160 C 252,136 318,127 360,144 C 402,161 422,200 420,240 C 418,280 402,312 370,330 C 338,348 264,352 222,334 C 180,316 167,292 162,255 Z"
+            stroke="var(--accent)" stroke-width="1.5" pathLength="1"/>
+
+          <path class="c-fire-dash"
+            d="M 162,255 C 157,218 172,184 212,160 C 252,136 318,127 360,144 C 402,161 422,200 420,240 C 418,280 402,312 370,330 C 338,348 264,352 222,334 C 180,316 167,292 162,255 Z"
+            stroke="var(--accent)" stroke-width="1.5" pathLength="1"/>
+
+          <path class="contour c4"
+            d="M 228,240 C 225,218 238,200 268,185 C 298,170 335,168 358,180 C 381,192 390,214 388,238 C 386,262 374,280 350,290 C 326,300 278,302 255,292 C 232,282 231,262 228,240 Z"
+            stroke="var(--accent)" stroke-width="0.75" pathLength="1" opacity="0.45"/>
+
+          <g class="map-labels">
+            <text x="66" y="300" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif">1200</text>
+            <text x="116" y="280" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif">1400</text>
+            <text x="170" y="260" fill="var(--accent)" font-size="7.5" font-family="Figtree, system-ui, sans-serif" font-weight="500">1600</text>
+            <text x="235" y="245" fill="var(--accent)" font-size="7" font-family="Figtree, system-ui, sans-serif" opacity="0.55">1800</text>
+          </g>
+
+          <g class="map-labels">
+            <text x="365" y="150" fill="var(--accent)" font-size="6.5" font-family="Figtree, system-ui, sans-serif" font-weight="600" letter-spacing="0.08em" opacity="0.7">ACTIVE PERIMETER</text>
+          </g>
+
+          <g class="data-points">
+            <g class="data-point dp1" transform="translate(142, 132)">
+              <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
+              <circle r="3.5" fill="var(--accent)"/>
+            </g>
+            <g class="data-point dp2" transform="translate(418, 198)">
+              <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
+              <circle r="3.5" fill="var(--accent)"/>
+            </g>
+            <g class="data-point dp3" transform="translate(305, 352)">
+              <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
+              <circle r="3.5" fill="var(--accent)"/>
+            </g>
+          </g>
+
+          <g class="map-coords">
+            <text x="385" y="24" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif" letter-spacing="0.04em">34.05°N</text>
+            <text x="420" y="388" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif" letter-spacing="0.04em">118.52°W</text>
+          </g>
+
+          <g class="map-labels" transform="translate(435, 50)">
+            <circle r="3" fill="var(--accent)" class="live-dot"/>
+            <text x="8" y="3.5" fill="var(--accent)" font-size="7" font-family="Figtree, system-ui, sans-serif" font-weight="700" letter-spacing="0.1em">LIVE</text>
+          </g>
+
+          <g class="map-scale" transform="translate(18, 380)">
+            <line x1="0" y1="0" x2="42" y2="0" stroke="var(--text-tertiary)" stroke-width="1"/>
+            <line x1="0" y1="-3" x2="0" y2="3" stroke="var(--text-tertiary)" stroke-width="1"/>
+            <line x1="42" y1="-3" x2="42" y2="3" stroke="var(--text-tertiary)" stroke-width="1"/>
+            <text x="10" y="12" fill="var(--text-tertiary)" font-size="7" font-family="Figtree, system-ui, sans-serif">500m</text>
+          </g>
+        </svg>
+      </div>
+    </section>
   </main>
 
-  <footer>&copy; 2026 Phoenix Fire Labs</footer>
+  <footer class="site-footer">
+    <img src="allblack.png" alt="Phoenix Fire Labs" style="height:24px;width:auto;display:block;" />
+    <div class="footer-copy">&copy; 2026 Phoenix Fire Labs</div>
+  </footer>
 
   <script>
     var params = new URLSearchParams(window.location.search);
@@ -217,7 +453,7 @@
       document.getElementById('redirect-field').value = redirectParam;
     }
     if (params.get('error') === '1') {
-      document.getElementById('login-error').style.display = 'block';
+      document.getElementById('login-error').style.display = 'flex';
     }
   </script>
 </body>
