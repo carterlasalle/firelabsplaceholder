@@ -182,7 +182,7 @@
     .c4 { animation: drawPath 1s var(--ease-out-expo) 1000ms forwards; }
     .map-labels, .map-coords, .map-scale { opacity: 0; animation: fadeIn 600ms ease 2.2s forwards; }
     .live-dot { animation: livePulse 2s ease-in-out infinite; }
-    .data-point { opacity: 0; animation: pointPop 500ms var(--ease-out-quart) forwards; }
+    .data-point { opacity: 0; transform-box: fill-box; transform-origin: center; animation: pointPop 500ms var(--ease-out-quart) forwards; }
     .dp1 { animation-delay: 1.8s; }
     .dp2 { animation-delay: 1.95s; }
     .dp3 { animation-delay: 2.1s; }
@@ -406,17 +406,23 @@
           </g>
 
           <g class="data-points">
-            <g class="data-point dp1" transform="translate(142, 132)">
-              <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
-              <circle r="3.5" fill="var(--accent)"/>
+            <g transform="translate(142, 132)">
+              <g class="data-point dp1">
+                <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
+                <circle r="3.5" fill="var(--accent)"/>
+              </g>
             </g>
-            <g class="data-point dp2" transform="translate(418, 198)">
-              <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
-              <circle r="3.5" fill="var(--accent)"/>
+            <g transform="translate(418, 198)">
+              <g class="data-point dp2">
+                <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
+                <circle r="3.5" fill="var(--accent)"/>
+              </g>
             </g>
-            <g class="data-point dp3" transform="translate(305, 352)">
-              <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
-              <circle r="3.5" fill="var(--accent)"/>
+            <g transform="translate(305, 352)">
+              <g class="data-point dp3">
+                <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
+                <circle r="3.5" fill="var(--accent)"/>
+              </g>
             </g>
           </g>
 
