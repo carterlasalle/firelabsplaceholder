@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phoenix Fire Labs — Private Preview</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/apple-touch-icon.png" type="image/png" sizes="180x180">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Figtree:wght@300..700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f3ed;
+      --bg-alt: #edeae2;
+      --text: #1a1815;
+      --text-mid: #3d3833;
+      --text-secondary: #5c5651;
+      --text-tertiary: #9c968f;
+      --accent: #a0440d;
+      --accent-warm: #c67b2e;
+      --accent-faint: rgba(160, 68, 13, 0.12);
+      --rule: #dad6cd;
+
+      --font-display: 'Fraunces', 'Georgia', serif;
+      --font-body: 'Figtree', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: clamp(0.875rem, 1.6vw, 1.125rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-decoration: none;
+      gap: 1px;
+    }
+
+    .logo-img { height: 40px; width: auto; display: block; }
+
+    .logo-sub {
+      font-family: var(--font-body);
+      font-size: 0.5625rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-left: -0.06em;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(2.5rem, 7vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    }
+
+    .gate-card { max-width: 28rem; width: 100%; }
+
+    .gate-eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 550;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .gate-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.875rem, 3.6vw, 2.5rem);
+      font-weight: 750;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+
+    .gate-body {
+      font-size: 0.9375rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+      max-width: 44ch;
+      margin-bottom: 2.25rem;
+    }
+
+    .gate-body a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-color: var(--accent-faint);
+      text-underline-offset: 2px;
+    }
+    .gate-body a:hover { color: var(--accent-warm); }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+      max-width: 22rem;
+    }
+
+    label {
+      font-size: 0.6875rem;
+      font-weight: 550;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+
+    input[type="password"] {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text);
+      background: #fff;
+      border: 1px solid var(--rule);
+      padding: 0.75rem 0.875rem;
+      outline: none;
+      transition: border-color 150ms;
+    }
+    input[type="password"]:focus { border-color: var(--accent); }
+
+    button {
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      padding: 0.8125rem 1.5rem;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      transition: background 150ms;
+    }
+    button:hover { background: var(--accent-warm); }
+
+    .gate-error {
+      display: none;
+      font-size: 0.8125rem;
+      color: var(--accent);
+      background: var(--accent-faint);
+      border-left: 2px solid var(--accent);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    footer {
+      padding: clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 5vw, 4rem);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      border-top: 1px solid var(--rule);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">
+      <img src="orangeAndPhoenix.png" alt="Phoenix Fire Labs" class="logo-img" />
+      <span class="logo-sub">Fire Labs</span>
+    </a>
+  </header>
+
+  <main>
+    <div class="gate-card">
+      <div class="gate-eyebrow">Private Preview</div>
+      <h1 class="gate-heading">Hey! You found us.</h1>
+      <p class="gate-body">
+        We're building something pretty awesome, but we aren't ready to show
+        everyone just yet. Reach out to
+        <a href="mailto:founders@phoenixfirelabs.com">founders@phoenixfirelabs.com</a>
+        to learn more — and maybe even get the secret password to our site!
+      </p>
+
+      <div class="gate-error" id="login-error">That password didn't work. Give it another try.</div>
+
+      <form method="POST" action="/api/login">
+        <input type="hidden" name="redirect" id="redirect-field" value="/">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" autofocus required>
+        <button type="submit">Enter</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>&copy; 2026 Phoenix Fire Labs</footer>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var redirectParam = params.get('redirect');
+    if (redirectParam && redirectParam.startsWith('/') && !redirectParam.startsWith('//') && !redirectParam.includes('://')) {
+      document.getElementById('redirect-field').value = redirectParam;
+    }
+    if (params.get('error') === '1') {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
