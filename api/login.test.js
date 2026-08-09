@@ -15,7 +15,7 @@ test('normalizes redirects without leaving the Phoenix origin', async (context) 
   process.env.SITE_PASSWORD = 'preview-secret';
   process.env.SESSION_SECRET = 'session-secret';
 
-  for (const redirect of ['/\\evil.example', '/\t/evil.example', '/\n/evil.example']) {
+  for (const redirect of ['/\\evil.example', '/\t/evil.example', '/\n/evil.example', '//evil.example']) {
     const form = new FormData();
     form.set('password', 'preview-secret');
     form.set('redirect', redirect);
@@ -37,4 +37,16 @@ test('normalizes redirects without leaving the Phoenix origin', async (context) 
     body: safeForm,
   }));
   assert.equal(safeResponse.headers.get('location'), 'https://phoenixfirelabs.com/platform?x=1#live');
+
+  const wrongPasswordForm = new FormData();
+  wrongPasswordForm.set('password', 'wrong-password');
+  wrongPasswordForm.set('redirect', '//evil.example');
+  const wrongPasswordResponse = await handler(new Request('https://phoenixfirelabs.com/api/login', {
+    method: 'POST',
+    body: wrongPasswordForm,
+  }));
+  const failLocation = new URL(wrongPasswordResponse.headers.get('location'));
+  assert.equal(failLocation.pathname, '/login.html');
+  assert.equal(failLocation.searchParams.get('error'), '1');
+  assert.equal(failLocation.searchParams.get('redirect'), '/');
 });

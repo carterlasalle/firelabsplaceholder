@@ -59,8 +59,11 @@
   --sync: #4e6f13;
   --sync-bright: #d7ff64;
   --sync-tint: rgba(78, 111, 19, 0.12);
-  --font-sans: 'Instrument Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  --signal-alert: rgba(202, 63, 38, 1);
+  --signal-alert-soft: rgba(202, 63, 38, 0.08);
+  --signal-alert-border: rgba(202, 63, 38, 0.3);
+  --font-sans: 'Instrument Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', 'Consolas', monospace;
   --sans: var(--font-sans);
   --mono: var(--font-mono);
   --space-1: 0.25rem;
@@ -196,7 +199,7 @@ main, .site-footer { position: relative; z-index: 1; }
   content: '';
   opacity: 0;
   transform: translateX(-50%);
-  animation: ambientReveal var(--motion-ambient) var(--ease-out) forwards;
+  animation: ambient-reveal var(--motion-ambient) var(--ease-out) forwards;
 }
 
 .ember-band {
@@ -227,12 +230,12 @@ main, .site-footer { position: relative; z-index: 1; }
 .ember-band::after {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, currentColor 1px, transparent 1.25px);
+  background-image: radial-gradient(circle, currentcolor 1px, transparent 1.25px);
   background-position: 0 0;
   background-size: 18px 18px;
   content: '';
   opacity: 0.36;
-  animation: emberMatrixPulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite both;
+  animation: ember-matrix-pulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite both;
   mask-image: radial-gradient(ellipse 72% 90% at 50% 50%, #000 28%, transparent 82%);
 }
 
@@ -279,7 +282,7 @@ main, .site-footer { position: relative; z-index: 1; }
 .beam-surface[data-beam-active='true']::before,
 .beam-surface[data-beam-active='true']::after {
   opacity: 1;
-  animation: beamSpin 24s linear infinite;
+  animation: beam-spin 24s linear infinite;
 }
 
 .incident-card,
@@ -334,7 +337,7 @@ main, .site-footer { position: relative; z-index: 1; }
   width: max-content;
   display: flex;
   align-items: center;
-  animation: waveformScroll var(--motion-loop) linear infinite;
+  animation: waveform-scroll var(--motion-loop) linear infinite;
 }
 
 .waveform-track svg {
@@ -354,7 +357,7 @@ main, .site-footer { position: relative; z-index: 1; }
   text-transform: uppercase;
 }
 
-.loading-dots span { animation: loadingDot 1.2s steps(1, end) infinite; }
+.loading-dots span { animation: loading-dot 1.2s steps(1, end) infinite; }
 .loading-dots span:nth-child(2) { animation-delay: 0.4s; }
 .loading-dots span:nth-child(3) { animation-delay: 0.8s; }
 
@@ -428,17 +431,17 @@ html[data-nav-deep-scrolled] .status-strip { opacity: 0; pointer-events: none; t
 }
 
 .route-node { transition: border-color var(--motion-micro) var(--ease-out), background-color var(--motion-micro) var(--ease-out), transform var(--motion-micro) var(--ease-out); }
-.section-schematic.is-visible .route-node { animation: routeNodeWake 5.6s var(--ease-out) infinite; }
+.section-schematic.is-visible .route-node { animation: route-node-wake 5.6s var(--ease-out) infinite; }
 .section-schematic.is-visible .route-node:nth-of-type(1) { animation-delay: 0s; }
 .section-schematic.is-visible .route-node:nth-of-type(2) { animation-delay: 0.65s; }
 .section-schematic.is-visible .route-node:nth-of-type(3) { animation-delay: 1.3s; }
 .section-schematic.is-visible .route-node:nth-of-type(4) { animation-delay: 1.95s; }
 
-.section-schematic.is-visible .platform-input { animation: platformInput 3.4s var(--ease-out) both; }
+.section-schematic.is-visible .platform-input { animation: platform-input 3.4s var(--ease-out) both; }
 .section-schematic.is-visible .platform-input:nth-child(2) { animation-delay: 0.45s; }
 .section-schematic.is-visible .platform-input:nth-child(3) { animation-delay: 0.9s; }
-.section-schematic.is-visible .platform-output { animation: platformOutput 3.4s var(--ease-out) 1.45s both; }
-.section-schematic.is-visible .platform-merge span { animation: mergePulse 3.4s var(--ease-out) 1.15s both; }
+.section-schematic.is-visible .platform-output { animation: platform-output 3.4s var(--ease-out) 1.45s both; }
+.section-schematic.is-visible .platform-merge span { animation: merge-pulse 3.4s var(--ease-out) 1.15s both; }
 
 .latency-track::after {
   position: absolute;
@@ -447,11 +450,11 @@ html[data-nav-deep-scrolled] .status-strip { opacity: 0; pointer-events: none; t
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 0 0 0.35rem color-mix(in srgb, currentColor 15%, transparent);
+  background: currentcolor;
+  box-shadow: 0 0 0 0.35rem color-mix(in srgb, currentcolor 15%, transparent);
   content: '';
   transform: translateY(-50%);
-  animation: latencyPacket 5.5s linear infinite;
+  animation: latency-packet 5.5s linear infinite;
 }
 
 .latency-track.slow::after { animation-duration: 11s; }
@@ -482,7 +485,7 @@ html[data-can-hover] .platform-grid:not(:has(.platform-card:focus-visible)):has(
 .platform-card:hover,
 .platform-card:focus-visible { transform: none; }
 
-.timeline-event::before { animation: eventNodePop var(--motion-enter) var(--ease-out) both; animation-delay: calc(var(--event-index, 0) * 160ms); }
+.timeline-event::before { animation: event-node-pop var(--motion-enter) var(--ease-out) both; animation-delay: calc(var(--event-index, 0) * 160ms); }
 
 .is-paused,
 .is-paused::before,
@@ -503,7 +506,7 @@ html[data-document-hidden] *::after {
 
 
 .footer-links a {
-  min-height: 2.75rem;
+  min-height: 3rem;
   display: inline-flex;
   align-items: center;
 }
@@ -570,14 +573,14 @@ html[data-document-hidden] *::after {
   .ember-band, .fireline-rails, .beam-surface::before, .beam-surface::after { display: none; }
 }
 
-@keyframes ambientReveal { to { opacity: 0.72; } }
-@keyframes emberMatrixPulse { 0%, 100% { opacity: 0.32; transform: translate3d(0, 0, 0); } 46% { opacity: 0.86; transform: translate3d(0.8px, -0.55px, 0); } }
-@keyframes beamSpin { to { --beam-angle: 360deg; } }
-@keyframes waveformScroll { to { transform: translateX(-50%); } }
-@keyframes loadingDot { 0%, 32% { opacity: 0; } 33%, 100% { opacity: 1; } }
-@keyframes routeNodeWake { 0%, 11%, 48%, 100% { border-color: var(--line); background: rgba(255, 251, 245, 0.76); transform: scale(1); } 18%, 36% { border-color: var(--ember); background: var(--ember-faint); transform: scale(1.04); } }
-@keyframes platformInput { 0%, 12%, 52%, 100% { background: transparent; } 20%, 42% { background: var(--ember-faint); } }
-@keyframes platformOutput { 0%, 16%, 48%, 100% { box-shadow: none; transform: scale(1); } 24%, 40% { box-shadow: 0 0 0 5px rgba(240, 90, 34, 0.12); transform: scale(1.015); } }
-@keyframes mergePulse { 0%, 16%, 48%, 100% { border-color: var(--ember); transform: scale(1); } 24%, 40% { border-color: var(--sync); transform: scale(1.12); } }
-@keyframes latencyPacket { from { left: 0; } to { left: calc(100% - 0.55rem); } }
-@keyframes eventNodePop { from { opacity: 0; transform: scale(0.45); } 55% { opacity: 1; transform: scale(1.08); } 78% { transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+@keyframes ambient-reveal { to { opacity: 0.72; } }
+@keyframes ember-matrix-pulse { 0%, 100% { opacity: 0.32; transform: translate3d(0, 0, 0); } 46% { opacity: 0.86; transform: translate3d(0.8px, -0.55px, 0); } }
+@keyframes beam-spin { to { --beam-angle: 360deg; } }
+@keyframes waveform-scroll { to { transform: translateX(-50%); } }
+@keyframes loading-dot { 0%, 32% { opacity: 0; } 33%, 100% { opacity: 1; } }
+@keyframes route-node-wake { 0%, 11%, 48%, 100% { border-color: var(--line); background: rgba(255, 251, 245, 0.76); transform: scale(1); } 18%, 36% { border-color: var(--ember); background: var(--ember-faint); transform: scale(1.04); } }
+@keyframes platform-input { 0%, 12%, 52%, 100% { background: transparent; } 20%, 42% { background: var(--ember-faint); } }
+@keyframes platform-output { 0%, 16%, 48%, 100% { box-shadow: none; transform: scale(1); } 24%, 40% { box-shadow: 0 0 0 5px rgba(240, 90, 34, 0.12); transform: scale(1.015); } }
+@keyframes merge-pulse { 0%, 16%, 48%, 100% { border-color: var(--ember); transform: scale(1); } 24%, 40% { border-color: var(--sync); transform: scale(1.12); } }
+@keyframes latency-packet { from { left: 0; } to { left: calc(100% - 0.55rem); } }
+@keyframes event-node-pop { 0% { opacity: 0; transform: scale(0.45); } 55% { opacity: 1; transform: scale(1.08); } 78% { transform: scale(0.97); } 100% { opacity: 1; transform: scale(1); } }

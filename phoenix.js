@@ -10,13 +10,15 @@
 
   function rafThrottle(callback) {
     var frame = 0;
+    var latestContext;
+    var latestArgs;
     return function () {
-      var context = this;
-      var args = arguments;
+      latestContext = this;
+      latestArgs = arguments;
       if (frame) return;
       frame = window.requestAnimationFrame(function () {
         frame = 0;
-        callback.apply(context, args);
+        callback.apply(latestContext, latestArgs);
       });
     };
   }
@@ -35,6 +37,7 @@
 
     function resume() {
       if (!active || manuallyPaused || document.hidden || intervalId) return;
+      callback();
       intervalId = window.setInterval(callback, delay);
     }
 
