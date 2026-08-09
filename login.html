@@ -2,31 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#171717">
   <title>Phoenix Fire Labs — Private Preview</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/apple-touch-icon.png" type="image/png" sizes="180x180">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="preload" href="/assets/fonts/instrument-sans-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/phoenix.css">
   <style>
-    :root {
-      --paper: #fffbf5;
-      --paper-2: #f7f2ea;
-      --ink: #171717;
-      --ink-soft: #4e4a45;
-      --ink-faint: #77716a;
-      --ember: #f05a22;
-      --ember-bright: #ff7038;
-      --line: #d8d2ca;
-      --signal: #d7ff64;
-      --sans: 'Instrument Sans', 'Helvetica Neue', sans-serif;
-      --mono: 'IBM Plex Mono', monospace;
-      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-      --gutter: clamp(0.75rem, 3vw, 2.75rem);
-    }
+    :root { --gutter: clamp(0.75rem, 3vw, 2.75rem); }
 
     *, *::before, *::after { box-sizing: border-box; }
     * { margin: 0; }
@@ -37,7 +24,7 @@
     a { color: inherit; }
     button, input { font: inherit; }
     ::selection { background: var(--ember); color: #fff; }
-    :focus-visible { outline: 3px solid var(--ember-bright); outline-offset: 3px; }
+    :focus-visible { outline: 3px solid var(--ember-dark); outline-offset: 3px; }
 
     .site-header {
       width: calc(100% - (var(--gutter) * 2));
@@ -45,6 +32,10 @@
       min-height: 4.25rem;
       margin: .65rem auto 0;
       padding: .55rem .55rem .55rem .9rem;
+      position: relative;
+      top: auto;
+      left: auto;
+      z-index: 4;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -52,20 +43,21 @@
       background: rgba(255,251,245,.92);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
+      transform: none;
     }
 
     .logo { min-height: 2.9rem; display: flex; align-items: center; gap: .65rem; text-decoration: none; }
     .logo-img { width: auto; height: 2.35rem; }
     .logo-sub { padding-left: .65rem; border-left: 1px solid var(--line); font: 600 .62rem/1.25 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
     .header-link { min-height: 3rem; display: inline-flex; align-items: center; gap: .7rem; padding: .7rem 1rem; border: 1px solid var(--ink); background: var(--ink); color: #fff; font-size: .82rem; font-weight: 600; text-decoration: none; transition: background-color 160ms ease, border-color 160ms ease, transform 160ms var(--ease-out); }
-    .header-link:hover { background: var(--ember); border-color: var(--ember); color: var(--ink); }
+    html[data-can-hover] .header-link:hover, .header-link:focus-visible { background: var(--ember); border-color: var(--ember); color: var(--ink); }
     .header-link:active { transform: translateY(1px) scale(.98); }
 
     .status-strip { width: calc(100% - (var(--gutter) * 2)); max-width: 90rem; min-height: 2.25rem; margin: .5rem auto 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .65rem .75rem; border: 1px solid var(--line); background: var(--paper); color: var(--ink-faint); font: 500 .62rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
     .status-live { display: inline-flex; align-items: center; gap: .5rem; color: var(--ink); }
     .status-dot { width: .45rem; height: .45rem; background: var(--ember); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
 
-    main { width: min(100%, 90rem); flex: 1; margin-inline: auto; padding: clamp(3rem, 7vw, 6.5rem) var(--gutter); display: grid; grid-template-columns: minmax(0,.88fr) minmax(26rem,1.12fr); gap: clamp(2.5rem, 7vw, 7rem); align-items: center; }
+    main { width: min(100%, 90rem); flex: 1; margin-inline: auto; padding: clamp(3rem, 7vw, 6.5rem) var(--gutter); position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0,.88fr) minmax(26rem,1.12fr); gap: clamp(2.5rem, 7vw, 7rem); align-items: center; }
 
     .gate-copy { max-width: 38rem; }
     .eyebrow { display: inline-flex; align-items: center; gap: .55rem; color: var(--ink-faint); font: 600 .68rem/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; opacity: 0; animation: fadeUp 700ms var(--ease-out) 80ms forwards; }
@@ -86,11 +78,17 @@
     .gate-form input { min-width: 0; min-height: 3.55rem; padding: .85rem 1rem; border: 1px solid var(--ink); border-right: 0; background: var(--paper); color: var(--ink); font-family: var(--mono); font-size: 1rem; border-radius: 0; }
     .gate-form input::placeholder { color: var(--ink-faint); }
     .gate-form button { min-width: 7rem; min-height: 3.55rem; padding: .8rem 1rem; border: 1px solid var(--ink); background: var(--ink); color: #fff; font-weight: 600; cursor: pointer; transition: background-color 160ms ease, border-color 160ms ease, transform 160ms var(--ease-out); }
-    .gate-form button:hover { background: var(--ember); border-color: var(--ember); color: var(--ink); }
+    html[data-can-hover] .gate-form button:hover, .gate-form button:focus-visible { background: var(--ember); border-color: var(--ember); color: var(--ink); }
     .gate-form button:active { transform: translateY(1px) scale(.98); }
     .gate-form button[aria-busy="true"] { background: var(--ember); border-color: var(--ember); color: var(--ink); cursor: wait; }
-    .gate-error { margin-bottom: .75rem; padding: .75rem; display: flex; align-items: flex-start; gap: .55rem; border: 1px solid var(--ember); background: rgba(240,90,34,.08); color: var(--ink); font: 500 .7rem/1.5 var(--mono); }
-    .gate-error::before { content: '×'; color: var(--ember); font-size: 1rem; font-weight: 600; line-height: 1; }
+    .gate-form button[aria-busy="true"] .loading-dots { display: inline-flex; }
+    .loading-dots { margin-left: .5rem; display: none; align-items: center; gap: .18rem; vertical-align: middle; }
+    .loading-dots i { width: .22rem; height: .22rem; display: block; border-radius: 50%; background: currentColor; animation: loginDot 900ms var(--ease-out) infinite; }
+    .loading-dots i:nth-child(2) { animation-delay: 120ms; }
+    .loading-dots i:nth-child(3) { animation-delay: 240ms; }
+    .gate-error { margin-bottom: .75rem; padding: .75rem; display: flex; align-items: flex-start; gap: .55rem; border: 1px solid var(--signal-alert-border); background: var(--signal-alert-soft); color: var(--ink); font: 500 .7rem/1.5 var(--mono); }
+    .gate-error::before { content: '×'; color: var(--signal-alert); font-size: 1rem; font-weight: 600; line-height: 1; }
+    .gate-error.is-visible { animation: errorFlash 600ms var(--ease-out); }
 
     .preview-console { position: relative; border: 1px solid var(--line); background: rgba(255,251,245,.9); box-shadow: 0 32px 70px rgba(79,46,25,.12); opacity: 0; transform: scale(.97) translateY(12px); animation: consoleIn 1100ms var(--ease-out) 260ms forwards; }
     .console-head, .console-foot { min-height: 2.8rem; padding: .7rem .85rem; display: flex; align-items: center; justify-content: space-between; gap: .8rem; border-bottom: 1px solid var(--line); color: var(--ink-faint); font: 500 .61rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
@@ -119,6 +117,8 @@
     @keyframes feedIn { to { opacity: 1; transform: none; filter: none; } }
     @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .3; transform: scale(.86); } }
     @keyframes dashRotate { to { transform: rotate(calc(var(--rotate) + 360deg)); } }
+    @keyframes loginDot { 0%, 100% { opacity: .3; transform: translateY(0); } 45% { opacity: 1; transform: translateY(-.16rem); } }
+    @keyframes errorFlash { 0%, 100% { box-shadow: 0 0 0 rgba(202, 63, 38, 0); } 45% { box-shadow: 0 0 0 .35rem rgba(202, 63, 38, .16); } }
 
     @media (min-width: 58.01rem) and (max-height: 64rem) {
       main {
@@ -148,7 +148,7 @@
     @media (max-width: 42rem) {
       :root { --gutter: .75rem; }
       .site-header { min-height: 3.8rem; margin-top: .5rem; padding: .4rem .4rem .4rem .7rem; }
-      .logo-img { height: 2rem; }.logo-sub { display: none; }.header-link { min-height: 2.9rem; padding-inline: .8rem; }
+      .logo-img { height: 2rem; }.logo-sub { display: none; }.header-link { min-height: 3rem; padding-inline: .8rem; }
       .status-strip { margin-top: .4rem; }.status-strip > span:last-child { display: none; }
       main { padding-top: 3.7rem; padding-bottom: 4.5rem; }
       h1 { font-size: clamp(3.7rem,18vw,5.2rem); }
@@ -175,6 +175,7 @@
   </style>
 </head>
 <body>
+  <div class="fireline-rails" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
   <header class="site-header">
     <a href="/" class="logo" aria-label="Phoenix Fire Labs home">
       <img src="allblack.png" alt="Phoenix Fire Labs" class="logo-img">
@@ -188,22 +189,22 @@
   <main>
     <section class="gate-copy" aria-labelledby="login-title">
       <div class="eyebrow">Private preview / Authorized access</div>
-      <h1 id="login-title"><span class="title-line"><span>You found</span></span><span class="title-line"><span>Phoenix.</span></span></h1>
+      <h1 id="login-title" aria-label="You found Phoenix."><span class="title-line" aria-hidden="true"><span>You found</span></span><span class="title-line" aria-hidden="true"><span>Phoenix.</span></span></h1>
       <p class="intro">We are building something for the fireline, but we are not ready to show everyone just yet. Reach out to <a href="mailto:founders@phoenixfirelabs.com">founders@phoenixfirelabs.com</a> to learn more and request preview access.</p>
 
-      <div class="gate">
+      <div class="gate beam-surface" data-beam-active="true">
         <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
         <div class="gate-error" id="login-error" role="alert" style="display:none;">That password did not work. Check it and try again.</div>
-        <label class="gate-label" for="password"><span>Preview password</span><span>Secure entry</span></label>
+        <label class="gate-label" for="password"><span>Preview password</span><span aria-hidden="true">Secure entry</span></label>
         <form method="POST" action="/api/login" class="gate-form" data-login-form>
           <input type="hidden" name="redirect" id="redirect-field" value="/">
           <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter access code" autofocus required>
-          <button type="submit" data-submit>Enter preview</button>
+          <button type="submit" data-submit><span data-submit-label>Enter preview</span><span class="loading-dots" aria-hidden="true"><i></i><i></i><i></i></span></button>
         </form>
       </div>
     </section>
 
-    <section class="preview-console" aria-label="Phoenix incident intelligence preview">
+    <section class="preview-console beam-surface" aria-label="Phoenix incident intelligence preview" data-beam-active="true" data-motion-region>
       <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
       <div class="console-head"><strong>Incident view / Preview</strong><span>34.05°N · 118.52°W</span></div>
       <div class="telemetry" aria-hidden="true">
@@ -214,8 +215,8 @@
           <span class="map-point one"></span><span class="map-point two"></span><span class="map-point three"></span>
         </div>
         <div class="preview-feed">
-          <div class="feed-item"><span class="feed-code">LOC</span><span class="feed-text">Division Alpha · ridge approach</span><span class="feed-time">00:04</span></div>
-          <div class="feed-item"><span class="feed-code">EVENT</span><span class="feed-text">Structured signal ready for map</span><span class="feed-time">00:09</span></div>
+          <div class="feed-item signal-location"><span class="feed-code">LOC</span><span class="feed-text">Division Alpha · ridge approach</span><span class="feed-time">00:04</span></div>
+          <div class="feed-item signal-sync"><span class="feed-code">EVENT</span><span class="feed-text">Structured signal ready for map</span><span class="feed-time">00:09</span></div>
         </div>
       </div>
       <div class="console-foot"><span>Radio → structure → geospatial</span><span>Restricted view</span></div>
@@ -224,27 +225,40 @@
 
   <footer><img src="allblack.png" alt="Phoenix Fire Labs"><span>© 2026 Phoenix Fire Labs · Wildfire command intelligence</span></footer>
 
+  <script src="/phoenix.js"></script>
   <script>
     (function () {
       'use strict';
       var params = new URLSearchParams(window.location.search);
       var redirectParam = params.get('redirect');
-      if (redirectParam && redirectParam.startsWith('/') && !redirectParam.startsWith('//') && !redirectParam.includes('://')) {
-        document.getElementById('redirect-field').value = redirectParam;
+      if (redirectParam && redirectParam.startsWith('/')) {
+        try {
+          var redirectUrl = new URL(redirectParam, window.location.origin);
+          if (redirectUrl.origin === window.location.origin) {
+            document.getElementById('redirect-field').value = redirectUrl.pathname + redirectUrl.search + redirectUrl.hash;
+          }
+        } catch (error) {
+          // Keep the default same-origin destination.
+        }
       }
       if (params.get('error') === '1') {
-        document.getElementById('login-error').style.display = 'flex';
+        var loginError = document.getElementById('login-error');
+        loginError.style.display = 'flex';
+        loginError.classList.add('is-visible');
       }
 
-      function updateClock() {
-        document.querySelector('[data-clock]').textContent = 'UTC ' + new Date().toISOString().slice(11, 19);
-      }
-      updateClock();
-      window.setInterval(updateClock, 1000);
+      var runtime = window.PhoenixRuntime;
+      if (runtime) runtime.updateClocks();
+
+      var gate = document.querySelector('.gate');
+      var password = document.getElementById('password');
+      gate.setAttribute('data-beam-active', String(document.activeElement === password));
+      gate.addEventListener('focusin', function () { gate.setAttribute('data-beam-active', 'true'); });
+      gate.addEventListener('focusout', function () { gate.setAttribute('data-beam-active', 'false'); });
 
       document.querySelector('[data-login-form]').addEventListener('submit', function () {
         var submit = document.querySelector('[data-submit]');
-        submit.textContent = 'Checking access…';
+        document.querySelector('[data-submit-label]').textContent = 'Checking access';
         submit.setAttribute('aria-busy', 'true');
       });
     }());

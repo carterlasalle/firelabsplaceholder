@@ -7,7 +7,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#171717">
   <title>Phoenix Fire Labs — Real-Time Wildfire Intelligence</title>
   <meta name="description" content="Phoenix Fire Labs builds AI systems that convert live wildfire radio traffic into actionable map intelligence in seconds, helping command teams make faster, safer decisions.">
   <meta name="keywords" content="wildfire, intelligence, AI, command teams, mapping, fire maps, real-time fire tracking, Phoenix Fire Labs, firefighting technology">
@@ -27,30 +28,7 @@
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/apple-touch-icon.png" type="image/png" sizes="180x180">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
-    :root {
-      --paper: #fffbf5;
-      --paper-2: #f7f2ea;
-      --ink: #171717;
-      --ink-soft: #4e4a45;
-      --ink-faint: #77716a;
-      --ember: #f05a22;
-      --ember-bright: #ff7038;
-      --ember-dark: #b83d10;
-      --line: #d8d2ca;
-      --line-dark: rgba(255, 255, 255, 0.2);
-      --signal: #d7ff64;
-      --font-sans: 'Instrument Sans', 'Helvetica Neue', sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
-      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-      --ease-fast: cubic-bezier(0.25, 1, 0.5, 1);
-      --page-gutter: clamp(0.75rem, 3.1vw, 2.75rem);
-      --section-space: clamp(4.75rem, 9vw, 8rem);
-      --max-width: 90rem;
-    }
 
     *, *::before, *::after { box-sizing: border-box; }
     * { margin: 0; }
@@ -179,13 +157,13 @@
     }
 
     .button svg { width: 1rem; transition: transform 160ms var(--ease-fast); }
-    .button:hover { background: var(--ember); border-color: var(--ember); color: var(--ink); }
-    .button:hover svg { transform: translateX(3px); }
+    html[data-can-hover] .button:hover, .button:focus-visible { background: var(--ember); border-color: var(--ember); color: var(--ink); }
+    html[data-can-hover] .button:hover svg, .button:focus-visible svg { transform: translateX(3px); }
     .button:active { transform: translateY(1px) scale(0.98); }
     .button.secondary { background: transparent; color: var(--ink); }
-    .button.secondary:hover { background: var(--ink); color: #fff; }
+    html[data-can-hover] .button.secondary:hover, .button.secondary:focus-visible { background: var(--ink); color: #fff; }
     .button.light { border-color: #fff; background: #fff; color: var(--ink); }
-    .button.light:hover { border-color: var(--ember-bright); background: var(--ember-bright); color: var(--ink); }
+    html[data-can-hover] .button.light:hover, .button.light:focus-visible { border-color: var(--ember-bright); background: var(--ember-bright); color: var(--ink); }
 
     /* Floating navigation */
     .site-header {
@@ -259,7 +237,8 @@
       transition: transform 180ms var(--ease-fast);
     }
 
-    .desktop-nav a:hover::after,
+    html[data-can-hover] .desktop-nav a:hover::after,
+    .desktop-nav a:focus-visible::after,
     .desktop-nav a[aria-current="true"]::after { transform: scaleX(1); }
 
     .header-actions { display: flex; justify-content: flex-end; align-items: center; }
@@ -398,7 +377,6 @@
 
     .rotator-word {
       grid-area: 1 / 1;
-      will-change: transform, opacity, filter;
     }
 
     .rotator-word.is-exiting { animation: wordOut 180ms ease forwards; }
@@ -674,7 +652,7 @@
     .tab-button span { color: var(--ink-faint); font: 500 0.62rem/1 var(--font-mono); }
     .tab-button[aria-selected="true"] { background: var(--ink); color: #fff; }
     .tab-button[aria-selected="true"] span { color: var(--ember-bright); }
-    .tab-button:hover:not([aria-selected="true"]) { background: rgba(240, 90, 34, 0.08); }
+    html[data-can-hover] .tab-button:hover:not([aria-selected="true"]), .tab-button:focus-visible:not([aria-selected="true"]) { background: rgba(240, 90, 34, 0.08); }
 
     .tab-panels { min-height: 28rem; position: relative; overflow: hidden; }
     .tab-panel { min-height: 28rem; display: none; grid-template-columns: minmax(0, 0.8fr) minmax(22rem, 1.2fr); gap: clamp(2rem, 7vw, 7rem); align-items: center; padding: clamp(2rem, 5vw, 4.5rem); }
@@ -701,7 +679,7 @@
     /* Platform grid */
     .platform-grid { display: grid; grid-template-columns: repeat(12, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
     .platform-card { min-height: 18rem; position: relative; padding: clamp(1.35rem, 3vw, 2.25rem); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255,251,245,.78); overflow: hidden; transition: background-color 180ms ease, transform 220ms var(--ease-fast); }
-    .platform-card:hover { background: #fff; }
+    html[data-can-hover] .platform-card:hover, .platform-card:focus-visible { background: #fff; }
     .platform-card.large { grid-column: span 7; min-height: 26rem; }
     .platform-card.medium { grid-column: span 5; min-height: 26rem; }
     .platform-card.third { grid-column: span 4; }
@@ -713,7 +691,7 @@
     .card-signal::before, .card-signal::after { position: absolute; top: 50%; left: 50%; background: var(--ember); content: ''; transform: translate(-50%, -50%); }
     .card-signal::before { width: 1rem; height: 1px; }
     .card-signal::after { width: 1px; height: 1rem; }
-    .platform-card:hover .card-signal { animation: rotateSignal 3s linear infinite; }
+    html[data-can-hover] .platform-card:hover .card-signal, .platform-card:focus-visible .card-signal { animation: rotateSignal 3s linear infinite; }
     .platform-orbit { position: absolute; right: -5rem; bottom: -8rem; width: 22rem; height: 22rem; border: 1px solid var(--line); border-radius: 50%; }
     .platform-orbit::before, .platform-orbit::after { position: absolute; inset: 18%; border: 1px dashed var(--line); border-radius: 50%; content: ''; animation: rotateSignal 20s linear infinite; }
     .platform-orbit::after { inset: 36%; border-style: solid; background: rgba(240,90,34,.08); animation-direction: reverse; animation-duration: 14s; }
@@ -796,7 +774,7 @@
     }
     @media (min-width: 56.01rem) and (max-height: 56.25rem) {
       .hero {
-        min-height: calc(100svh - 7.625rem);
+        min-height: calc(100svh - 8.125rem);
         padding-top: clamp(1.5rem, 4svh, 2.5rem);
         padding-bottom: clamp(1.5rem, 4svh, 2.5rem);
       }
@@ -897,8 +875,12 @@
       .timeline-line::after { transform: scaleX(1); }
     }
   </style>
+  <link rel="preload" href="/assets/fonts/instrument-sans-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/phoenix.css">
 </head>
 <body>
+  <div class="fireline-rails" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header" data-site-header>
@@ -943,12 +925,13 @@
   </div>
 
   <main id="main">
-    <section class="hero shell" aria-labelledby="hero-title">
+    <section class="hero shell command-deck" aria-labelledby="hero-title" data-nav-tone="dark" data-motion-region>
+      <div class="hero-ember-field ember-band" aria-hidden="true"></div>
       <div class="hero-copy">
         <div class="hero-eyebrow mono-label">Wildfire command intelligence</div>
-        <h1 class="hero-title" id="hero-title">
-          <span class="hero-title-line"><span>See the</span></span>
-          <span class="hero-title-line"><span>fireground.</span></span>
+        <h1 class="hero-title" id="hero-title" aria-label="See the fireground.">
+          <span class="hero-title-line" aria-hidden="true"><span>See the</span></span>
+          <span class="hero-title-line" aria-hidden="true"><span>fireground.</span></span>
         </h1>
         <p class="rotator-wrap">
           Turn live radio into
@@ -970,7 +953,7 @@
         </div>
       </div>
 
-      <div class="map-console registration-box" data-motion-region>
+      <div class="map-console registration-box beam-surface" data-motion-region data-beam-active="true">
         <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
         <div class="console-toolbar">
           <span class="console-title">Incident view / Alpha</span>
@@ -1005,16 +988,17 @@
             <g class="map-scale" transform="translate(18 380)" font-family="IBM Plex Mono, monospace"><line x1="0" x2="42" stroke="var(--ink-faint)"/><line y1="-3" y2="3" stroke="var(--ink-faint)"/><line x1="42" x2="42" y1="-3" y2="3" stroke="var(--ink-faint)"/><text x="10" y="12" fill="var(--ink-faint)" font-size="7">500m</text></g>
           </svg>
           <div class="incident-feed" aria-label="Example structured radio signals">
-            <div class="incident-card"><span class="feed-code">LOC</span><span class="feed-message">Division Alpha · ridge approach</span><span class="feed-time">00:04</span></div>
-            <div class="incident-card"><span class="feed-code">UNIT</span><span class="feed-message">Engine 41 · reassignment</span><span class="feed-time">00:09</span></div>
-            <div class="incident-card"><span class="feed-code">EVENT</span><span class="feed-message">Spot fire · east of dozer line</span><span class="feed-time">00:14</span></div>
+            <div class="incident-card signal-location"><span class="feed-code">LOC</span><span class="feed-message">Division Alpha · ridge approach</span><span class="feed-time">00:04</span></div>
+            <div class="incident-card signal-unit"><span class="feed-code">UNIT</span><span class="feed-message">Engine 41 · reassignment</span><span class="feed-time">00:09</span></div>
+            <div class="incident-card signal-event"><span class="feed-code">EVENT</span><span class="feed-message">Spot fire · east of dozer line</span><span class="feed-time">00:14</span></div>
           </div>
         </div>
         <div class="console-footer"><span>VHF → structure → geospatial</span><span>Latency / seconds</span></div>
       </div>
     </section>
+    <div class="bleed-rule" aria-hidden="true"></div>
 
-    <section class="problem section" id="problem" data-nav-section data-motion-region>
+    <section class="problem section" id="problem" data-nav-section data-nav-tone="dark" data-surface="ink" data-motion-region>
       <div class="shell problem-grid">
         <div>
           <div class="mono-label reveal">The operational gap</div>
@@ -1023,7 +1007,7 @@
           <p class="problem-copy reveal" style="--delay:3">Phoenix Fire Labs is building MOCKINGBIRD to listen to tactical VHF channels, transcribe traffic in real time, extract locations, units, and incident events, then push structured updates into map-centric command workflows.</p>
           <p class="problem-goal reveal" style="--delay:4">THE GOAL / Reduce radio-to-map latency from <strong>hours to seconds.</strong></p>
         </div>
-        <div class="latency-console registration-box reveal" style="--delay:2">
+        <div class="latency-console registration-box reveal beam-surface" style="--delay:2" data-beam-active="true">
           <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
           <div class="latency-head"><span>Signal latency comparison</span><span>Live model</span></div>
           <div class="latency-chart">
@@ -1043,8 +1027,21 @@
         </div>
       </div>
     </section>
+    <div class="waveform-band" aria-hidden="true" data-motion-region>
+      <div class="waveform-track">
+        <svg viewBox="0 0 1192 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 48H90L112 46L124 25L137 76L151 39L166 55L184 48H276L298 45L312 14L326 82L341 34L356 61L374 48H468L489 44L503 23L518 73L532 37L547 58L566 48H658L679 45L693 10L708 86L723 31L738 64L756 48H850L871 44L885 20L900 76L915 36L930 59L948 48H1040L1062 45L1076 27L1090 70L1105 39L1121 56L1138 48H1192" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1 7"/>
+          <path d="M0 67H1192M0 29H1192" stroke="currentColor" stroke-opacity=".18" stroke-dasharray="1 11"/>
+        </svg>
+        <svg viewBox="0 0 1192 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 48H90L112 46L124 25L137 76L151 39L166 55L184 48H276L298 45L312 14L326 82L341 34L356 61L374 48H468L489 44L503 23L518 73L532 37L547 58L566 48H658L679 45L693 10L708 86L723 31L738 64L756 48H850L871 44L885 20L900 76L915 36L930 59L948 48H1040L1062 45L1076 27L1090 70L1105 39L1121 56L1138 48H1192" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1 7"/>
+          <path d="M0 67H1192M0 29H1192" stroke="currentColor" stroke-opacity=".18" stroke-dasharray="1 11"/>
+        </svg>
+      </div>
+      <div class="waveform-label"><span>VHF signal / continuous intake</span><span>Tactical channel → structured command data</span></div>
+    </div>
 
-    <section class="mockingbird section" id="mockingbird" data-nav-section data-tab-system data-motion-region>
+    <section class="mockingbird section" id="mockingbird" data-nav-section data-nav-tone="light" data-surface="paper" data-tab-system data-motion-region>
       <div class="shell">
         <header class="section-header">
           <div class="section-kicker">
@@ -1064,7 +1061,7 @@
             <p class="section-intro reveal" style="--delay:2">An AI-powered wildfire communications engine for real-time speech-to-structure on tactical VHF traffic, extracting location, unit, and event signals and synchronizing them to geospatial command views.</p>
           </div>
         </header>
-        <div class="product-tabs reveal" style="--delay:2">
+        <div class="product-tabs reveal beam-surface" style="--delay:2" data-beam-active="true">
           <div class="tab-list" role="tablist" aria-label="Mockingbird processing stages">
             <button class="tab-button" type="button" role="tab" id="tab-listen" aria-controls="panel-listen" aria-selected="true" tabindex="0" data-tab="0"><span>01</span>Listen</button>
             <button class="tab-button" type="button" role="tab" id="tab-transcribe" aria-controls="panel-transcribe" aria-selected="false" tabindex="-1" data-tab="1"><span>02</span>Transcribe</button>
@@ -1092,8 +1089,9 @@
         </div>
       </div>
     </section>
+    <div class="bleed-rule" aria-hidden="true"></div>
 
-    <section class="section" id="platform" data-nav-section data-motion-region>
+    <section class="section" id="platform" data-nav-section data-nav-tone="light" data-surface="paper" data-motion-region>
       <div class="shell">
         <header class="section-header">
           <div class="section-kicker">
@@ -1117,16 +1115,16 @@
           </div>
         </header>
         <div class="platform-grid">
-          <article class="platform-card large reveal"><span class="card-index">01 / AWARENESS</span><span class="card-signal"></span><div class="platform-orbit" aria-hidden="true"></div><h3>Faster situational awareness.</h3><p>Surface operational updates while an incident is evolving, not after the next manual review cycle.</p></article>
-          <article class="platform-card medium reveal" style="--delay:1"><span class="card-index">02 / COGNITIVE LOAD</span><span class="card-signal"></span><h3>Less manual radio burden.</h3><p>Reduce the analyst work required to turn peak radio traffic into structured, useful information.</p></article>
-          <article class="platform-card third reveal"><span class="card-index">03 / CLARITY</span><span class="card-signal"></span><h3>Clearer resource decisions.</h3><p>Support allocation under pressure with a more current view of units, events, and locations.</p></article>
-          <article class="platform-card third reveal" style="--delay:1"><span class="card-index">04 / FIELD UTILITY</span><span class="card-signal"></span><h3>Designed for operations.</h3><p>Focused on practical field utility across high-risk wildfire environments.</p></article>
-          <article class="platform-card third reveal" style="--delay:2"><span class="card-index">05 / WORKFLOW</span><span class="card-signal"></span><h3>Map-centric by default.</h3><p>Put extracted signals into the geospatial workflows command teams already rely on.</p></article>
+          <article class="platform-card large reveal" tabindex="0"><span class="card-index">01 / AWARENESS</span><span class="card-signal"></span><div class="platform-orbit" aria-hidden="true"></div><h3>Faster situational awareness.</h3><p>Surface operational updates while an incident is evolving, not after the next manual review cycle.</p></article>
+          <article class="platform-card medium reveal" tabindex="0" style="--delay:1"><span class="card-index">02 / COGNITIVE LOAD</span><span class="card-signal"></span><h3>Less manual radio burden.</h3><p>Reduce the analyst work required to turn peak radio traffic into structured, useful information.</p></article>
+          <article class="platform-card third reveal" tabindex="0"><span class="card-index">03 / CLARITY</span><span class="card-signal"></span><h3>Clearer resource decisions.</h3><p>Support allocation under pressure with a more current view of units, events, and locations.</p></article>
+          <article class="platform-card third reveal" tabindex="0" style="--delay:1"><span class="card-index">04 / FIELD UTILITY</span><span class="card-signal"></span><h3>Designed for operations.</h3><p>Focused on practical field utility across high-risk wildfire environments.</p></article>
+          <article class="platform-card third reveal" tabindex="0" style="--delay:2"><span class="card-index">05 / WORKFLOW</span><span class="card-signal"></span><h3>Map-centric by default.</h3><p>Put extracted signals into the geospatial workflows command teams already rely on.</p></article>
         </div>
       </div>
     </section>
 
-    <section class="story section" id="story" data-nav-section data-motion-region>
+    <section class="story section" id="story" data-nav-section data-nav-tone="ember" data-surface="ember" data-motion-region>
       <div class="shell story-grid">
         <div>
           <div class="mono-label reveal">Founded in fire</div>
@@ -1140,17 +1138,19 @@
           <div class="timeline-body">
             <div class="timeline-line"></div>
             <div class="timeline-events">
-              <div class="timeline-event"><strong>2025</strong>Palisades Fire<br>Firsthand loss</div>
-              <div class="timeline-event"><strong>Today</strong>Phoenix Fire Labs<br>Built with purpose</div>
+              <div class="timeline-event" style="--event-index:0"><strong>2025</strong>Palisades Fire<br>Firsthand loss</div>
+              <div class="timeline-event" style="--event-index:1"><strong>Today</strong>Phoenix Fire Labs<br>Built with purpose</div>
             </div>
           </div>
         </div>
       </div>
     </section>
+    <div class="ember-band" aria-hidden="true" data-motion-region></div>
+    <div class="bleed-rule" aria-hidden="true"></div>
 
-    <section class="final-cta section">
+    <section class="final-cta section" data-nav-tone="light" data-surface="paper" data-motion-region>
       <div class="shell">
-        <div class="cta-box registration-box reveal">
+        <div class="cta-box registration-box reveal beam-surface" data-nav-tone="dark" data-beam-active="true">
           <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
           <h2 class="cta-title">Turn the radio into <span>the picture.</span></h2>
           <div class="cta-action">
@@ -1179,11 +1179,13 @@
     </div>
   </footer>
 
+  <script src="/phoenix.js"></script>
   <script>
     (function () {
       'use strict';
 
       var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var runtime = window.PhoenixRuntime;
       var header = document.querySelector('[data-site-header]');
       var menuToggle = document.querySelector('[data-menu-toggle]');
       var mobileMenu = document.querySelector('[data-mobile-menu]');
@@ -1244,23 +1246,35 @@
         }
       });
 
+      var navToneSurfaces = Array.prototype.slice.call(document.querySelectorAll('[data-nav-tone]'));
+      var hero = document.querySelector('.hero');
+
+      function updateHeaderState() {
+        var scrolled = window.scrollY > 24;
+        var deepScrolled = window.scrollY > hero.offsetTop + (hero.offsetHeight * 0.68);
+        var headerRect = header.getBoundingClientRect();
+        var bandTop = headerRect.top + 8;
+        var bandBottom = headerRect.bottom - 8;
+        var onDark = navToneSurfaces.some(function (surface) {
+          if (surface.getAttribute('data-nav-tone') !== 'dark') return false;
+          var rect = surface.getBoundingClientRect();
+          if (!rect.width || !rect.height || rect.width < window.innerWidth * 0.55) return false;
+          return rect.top < bandBottom && rect.bottom > bandTop;
+        });
+
+        header.classList.toggle('is-scrolled', scrolled);
+        document.documentElement.toggleAttribute('data-nav-scrolled', scrolled);
+        document.documentElement.toggleAttribute('data-nav-deep-scrolled', deepScrolled);
+        document.documentElement.toggleAttribute('data-nav-on-dark', onDark);
+      }
+
+      var syncHeader = runtime ? runtime.rafThrottle(updateHeaderState) : updateHeaderState;
+      updateHeaderState();
+      window.addEventListener('scroll', syncHeader, { passive: true });
       window.addEventListener('resize', function () {
         if (window.innerWidth > 1088 && menuToggle.getAttribute('aria-expanded') === 'true') setMenu(false);
+        syncHeader();
       });
-
-      function updateHeader() {
-        header.classList.toggle('is-scrolled', window.scrollY > 24);
-      }
-      updateHeader();
-      window.addEventListener('scroll', updateHeader, { passive: true });
-
-      var clock = document.querySelector('[data-utc-clock]');
-      function updateClock() {
-        var now = new Date();
-        clock.textContent = 'UTC ' + now.toISOString().slice(11, 19);
-      }
-      updateClock();
-      window.setInterval(updateClock, 1000);
 
       var reveals = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window && !reducedMotion) {
@@ -1271,19 +1285,10 @@
               revealObserver.unobserve(entry.target);
             }
           });
-        }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+        }, { threshold: 0, rootMargin: '200px 0px 80px 0px' });
         reveals.forEach(function (element) { revealObserver.observe(element); });
       } else {
         reveals.forEach(function (element) { element.classList.add('is-visible'); });
-      }
-
-      if ('IntersectionObserver' in window && !reducedMotion) {
-        var motionObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            entry.target.classList.toggle('is-paused', !entry.isIntersecting);
-          });
-        }, { threshold: 0.01, rootMargin: '120px 0px' });
-        document.querySelectorAll('[data-motion-region]').forEach(function (region) { motionObserver.observe(region); });
       }
 
       if ('IntersectionObserver' in window) {
@@ -1295,7 +1300,7 @@
               });
             }
           });
-        }, { threshold: 0.26, rootMargin: '-20% 0px -58% 0px' });
+        }, { threshold: 0.01, rootMargin: '-20% 0px -58% 0px' });
         document.querySelectorAll('[data-nav-section]').forEach(function (section) { navObserver.observe(section); });
       }
 
@@ -1303,7 +1308,7 @@
       var words = ['map intelligence in seconds.', 'operational clarity.', 'structured command signals.'];
       var wordIndex = 0;
       if (!reducedMotion) {
-        window.setInterval(function () {
+        var rotateWord = function () {
           rotatorWord.classList.remove('is-entering');
           rotatorWord.classList.add('is-exiting');
           window.setTimeout(function () {
@@ -1312,7 +1317,9 @@
             rotatorWord.classList.remove('is-exiting');
             rotatorWord.classList.add('is-entering');
           }, 180);
-        }, 5000);
+        };
+        if (runtime) runtime.interval(rotateWord, 5000);
+        else window.setInterval(rotateWord, 5000);
       }
 
       document.querySelectorAll('[data-tab-system]').forEach(function (system) {
@@ -1338,14 +1345,34 @@
           });
         }
 
+        function clearRotation() {
+          if (!timer) return;
+          if (runtime) timer.stop();
+          else window.clearInterval(timer);
+          timer = null;
+        }
+
+        function pauseRotation() {
+          if (!timer) return;
+          if (runtime) timer.pause();
+          else { window.clearInterval(timer); timer = null; }
+        }
+
         function stopRotation() {
           stopped = true;
-          if (timer) window.clearInterval(timer);
+          system.setAttribute('data-rotation-stopped', 'true');
+          clearRotation();
         }
 
         function startRotation() {
-          if (stopped || !visible || timer) return;
-          timer = window.setInterval(function () { activate(activeIndex + 1, false); }, 6500);
+          if (stopped || !visible) return;
+          if (timer) {
+            if (runtime) timer.start();
+            return;
+          }
+          timer = runtime
+            ? runtime.interval(function () { activate(activeIndex + 1, false); }, 6500)
+            : window.setInterval(function () { activate(activeIndex + 1, false); }, 6500);
         }
 
         tabs.forEach(function (tab, index) {
@@ -1364,9 +1391,14 @@
           var tabObserver = new IntersectionObserver(function (entries) {
             visible = entries[0].isIntersecting;
             if (visible) startRotation();
-            else if (timer) { window.clearInterval(timer); timer = null; }
-          }, { threshold: 0.2 });
+            else pauseRotation();
+          }, { threshold: 0.2, rootMargin: '200px 0px' });
           tabObserver.observe(system);
+        } else if (!reducedMotion) {
+          visible = true;
+          startRotation();
+        } else {
+          system.setAttribute('data-rotation-stopped', 'true');
         }
       });
     }());
