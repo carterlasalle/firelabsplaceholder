@@ -37,7 +37,7 @@
     a { color: inherit; }
     button, input { font: inherit; }
     ::selection { background: var(--ember); color: #fff; }
-    :focus-visible { outline: 3px solid var(--ember-bright); outline-offset: 3px; }
+    :focus-visible { outline: 3px solid var(--ember); outline-offset: 3px; }
 
     .site-header {
       width: calc(100% - (var(--gutter) * 2));
@@ -148,7 +148,7 @@
     @media (max-width: 42rem) {
       :root { --gutter: .75rem; }
       .site-header { min-height: 3.8rem; margin-top: .5rem; padding: .4rem .4rem .4rem .7rem; }
-      .logo-img { height: 2rem; }.logo-sub { display: none; }.header-link { min-height: 2.9rem; padding-inline: .8rem; }
+      .logo-img { height: 2rem; }.logo-sub { display: none; }.header-link { min-height: 3rem; padding-inline: .8rem; }
       .status-strip { margin-top: .4rem; }.status-strip > span:last-child { display: none; }
       main { padding-top: 3.7rem; padding-bottom: 4.5rem; }
       h1 { font-size: clamp(3.7rem,18vw,5.2rem); }
@@ -188,13 +188,13 @@
   <main>
     <section class="gate-copy" aria-labelledby="login-title">
       <div class="eyebrow">Private preview / Authorized access</div>
-      <h1 id="login-title"><span class="title-line"><span>You found</span></span><span class="title-line"><span>Phoenix.</span></span></h1>
+      <h1 id="login-title"><span class="title-line"><span>You found</span></span> <span class="title-line"><span>Phoenix.</span></span></h1>
       <p class="intro">We are building something for the fireline, but we are not ready to show everyone just yet. Reach out to <a href="mailto:founders@phoenixfirelabs.com">founders@phoenixfirelabs.com</a> to learn more and request preview access.</p>
 
       <div class="gate">
         <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
         <div class="gate-error" id="login-error" role="alert" style="display:none;">That password did not work. Check it and try again.</div>
-        <label class="gate-label" for="password"><span>Preview password</span><span>Secure entry</span></label>
+        <label class="gate-label" for="password"><span>Preview password</span><span aria-hidden="true">Secure entry</span></label>
         <form method="POST" action="/api/login" class="gate-form" data-login-form>
           <input type="hidden" name="redirect" id="redirect-field" value="/">
           <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter access code" autofocus required>
@@ -229,7 +229,7 @@
       'use strict';
       var params = new URLSearchParams(window.location.search);
       var redirectParam = params.get('redirect');
-      if (redirectParam && redirectParam.startsWith('/') && !redirectParam.startsWith('//') && !redirectParam.includes('://')) {
+      if (redirectParam && redirectParam.startsWith('/') && !redirectParam.startsWith('//') && redirectParam.charAt(1) !== '\\' && !redirectParam.includes('://')) {
         document.getElementById('redirect-field').value = redirectParam;
       }
       if (params.get('error') === '1') {
