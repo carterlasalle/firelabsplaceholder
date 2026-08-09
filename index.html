@@ -530,9 +530,64 @@
 
     /* Section framing */
     .section { padding-block: var(--section-space); }
-    .section-header { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: clamp(2rem, 7vw, 8rem); align-items: start; margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+    .section-header { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: clamp(2rem, 7vw, 8rem); align-items: stretch; margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
     .section-title { max-width: 13ch; font-size: clamp(2.65rem, 5.5vw, 5.7rem); font-weight: 600; line-height: 0.94; letter-spacing: -0.065em; }
     .section-intro { max-width: 42rem; color: var(--ink-soft); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; }
+    .section-kicker { min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; }
+    .section-schematic {
+      min-height: 9rem;
+      padding-block: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-faint);
+      font: 500 0.56rem/1.2 var(--font-mono);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .schematic-meta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .schematic-meta span:first-child { color: var(--ink); }
+    .signal-route {
+      min-height: 6rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.38rem;
+    }
+    .route-node {
+      width: 3rem;
+      height: 3rem;
+      display: grid;
+      place-content: center;
+      gap: 0.16rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 251, 245, 0.76);
+      text-align: center;
+    }
+    .route-node span { color: var(--ink-faint); font-size: 0.48rem; }
+    .route-node strong { color: var(--ink); font-size: 0.58rem; letter-spacing: 0.04em; }
+    .route-node.is-live { border-color: var(--ember); background: var(--ember-faint); }
+    .route-node.is-live strong { color: var(--ember-dark); }
+    .route-link { height: 1px; position: relative; overflow: hidden; background: var(--line); }
+    .route-link::after {
+      position: absolute;
+      inset: 0 -11px 0 0;
+      background: repeating-linear-gradient(90deg, var(--ember) 0 4px, transparent 4px 11px);
+      content: '';
+      animation: dashTrack 2s linear infinite;
+    }
+    .platform-flow { min-height: 6rem; display: grid; grid-template-columns: minmax(0, 0.9fr) 2.4rem minmax(0, 1.1fr); align-items: stretch; padding-top: 0.7rem; }
+    .platform-inputs { display: grid; grid-template-rows: repeat(3, 1fr); border: 1px solid var(--line); background: rgba(255, 251, 245, 0.76); }
+    .platform-input { display: flex; align-items: center; gap: 0.45rem; padding-inline: 0.55rem; color: var(--ink); }
+    .platform-input + .platform-input { border-top: 1px solid var(--line); }
+    .platform-input b { color: var(--ember-dark); font-size: 0.5rem; }
+    .platform-merge { position: relative; display: grid; place-items: center; color: var(--ember-dark); font-size: 0.8rem; }
+    .platform-merge::before { width: 100%; height: 1px; position: absolute; background: var(--line); content: ''; }
+    .platform-merge span { position: relative; z-index: 1; width: 1.25rem; height: 1.25rem; display: grid; place-items: center; border: 1px solid var(--ember); border-radius: 50%; background: var(--paper); }
+    .platform-output { display: grid; align-content: center; gap: 0.35rem; padding: 0.65rem; border: 1px solid var(--ember); background: var(--ember-faint); }
+    .platform-output span { color: var(--ember-dark); font-size: 0.48rem; }
+    .platform-output strong { color: var(--ink); font-size: 0.6rem; line-height: 1.35; letter-spacing: 0.04em; }
 
     .reveal {
       opacity: 0;
@@ -728,6 +783,7 @@
     @keyframes scanAcross { 0% { transform: translateX(0); opacity: 0; } 15%, 85% { opacity: 1; } 100% { transform: translateX(20rem); opacity: 0; } }
     @keyframes rotateSignal { to { transform: rotate(360deg); } }
 
+
     /* Responsive */
     @media (max-width: 68rem) {
       .site-header { grid-template-columns: 1fr auto; }
@@ -737,6 +793,22 @@
       .hero-title { font-size: clamp(3.7rem, 7.8vw, 6.2rem); }
       .map-stage { min-height: 27rem; }
       .section-header { grid-template-columns: 1fr 1.4fr; }
+    }
+    @media (min-width: 56.01rem) and (max-height: 56.25rem) {
+      .hero {
+        min-height: calc(100svh - 7.625rem);
+        padding-top: clamp(1.5rem, 4svh, 2.5rem);
+        padding-bottom: clamp(1.5rem, 4svh, 2.5rem);
+      }
+      .hero-eyebrow { margin-bottom: clamp(0.9rem, 2svh, 1.35rem); }
+      .hero-title { font-size: clamp(4rem, 12svh, 6.65rem); }
+      .rotator-wrap { min-height: 1.6rem; margin-top: clamp(0.85rem, 2svh, 1.25rem); }
+      .hero-sub { margin-top: clamp(0.7rem, 1.5svh, 1rem); line-height: 1.5; }
+      .hero-actions { margin-top: clamp(1rem, 2.4svh, 1.5rem); }
+      .hero-proof { margin-top: clamp(0.75rem, 1.7svh, 1.1rem); }
+      .map-stage { min-height: clamp(18rem, 52svh, 27rem); }
+      .hero-map { width: auto; max-width: 94%; height: min(42svh, 22rem); }
+      .incident-card { min-height: 3.25rem; padding: 0.55rem 0.65rem; }
     }
 
     @media (max-width: 56rem) {
@@ -780,6 +852,8 @@
       .incident-card:nth-child(3) { display: none; }
       .console-meta { display: none; }
       .section-header { grid-template-columns: 1fr; gap: 1.2rem; }
+      .section-kicker { display: block; }
+      .section-schematic { display: none; }
       .section-title { font-size: clamp(2.8rem, 14vw, 4.7rem); }
       .problem-title, .story-title { font-size: clamp(3rem, 14vw, 5rem); }
       .problem-grid { gap: 3.5rem; }
@@ -973,7 +1047,18 @@
     <section class="mockingbird section" id="mockingbird" data-nav-section data-tab-system data-motion-region>
       <div class="shell">
         <header class="section-header">
-          <div class="mono-label reveal">System 01 / Mockingbird</div>
+          <div class="section-kicker">
+            <div class="mono-label reveal">System 01 / Mockingbird</div>
+            <div class="section-schematic reveal" style="--delay:1" aria-hidden="true">
+              <div class="schematic-meta"><span>Live signal path</span><span>Radio → map</span></div>
+              <div class="signal-route">
+                <div class="route-node is-live"><span>01</span><strong>VHF</strong></div><i class="route-link"></i>
+                <div class="route-node"><span>02</span><strong>Text</strong></div><i class="route-link"></i>
+                <div class="route-node"><span>03</span><strong>Signal</strong></div><i class="route-link"></i>
+                <div class="route-node"><span>04</span><strong>Map</strong></div>
+              </div>
+            </div>
+          </div>
           <div>
             <h2 class="section-title reveal" style="--delay:1">Radio traffic becomes command intelligence.</h2>
             <p class="section-intro reveal" style="--delay:2">An AI-powered wildfire communications engine for real-time speech-to-structure on tactical VHF traffic, extracting location, unit, and event signals and synchronizing them to geospatial command views.</p>
@@ -1011,7 +1096,21 @@
     <section class="section" id="platform" data-nav-section data-motion-region>
       <div class="shell">
         <header class="section-header">
-          <div class="mono-label reveal">The Phoenix platform</div>
+          <div class="section-kicker">
+            <div class="mono-label reveal">The Phoenix platform</div>
+            <div class="section-schematic reveal" style="--delay:1" aria-hidden="true">
+              <div class="schematic-meta"><span>Operating model</span><span>03 inputs / 01 view</span></div>
+              <div class="platform-flow">
+                <div class="platform-inputs">
+                  <div class="platform-input"><b>01</b>Language AI</div>
+                  <div class="platform-input"><b>02</b>Geospatial</div>
+                  <div class="platform-input"><b>03</b>Workflow</div>
+                </div>
+                <div class="platform-merge"><span>+</span></div>
+                <div class="platform-output"><span>Output</span><strong>Common operating picture</strong></div>
+              </div>
+            </div>
+          </div>
           <div>
             <h2 class="section-title reveal" style="--delay:1">A common operating picture, built from the fireline.</h2>
             <p class="section-intro reveal" style="--delay:2">The broader Phoenix platform combines language AI, geospatial intelligence, and operational workflow design to support a live common operating picture for wildfire response.</p>

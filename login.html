@@ -120,6 +120,24 @@
     @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .3; transform: scale(.86); } }
     @keyframes dashRotate { to { transform: rotate(calc(var(--rotate) + 360deg)); } }
 
+    @media (min-width: 58.01rem) and (max-height: 64rem) {
+      main {
+        padding-top: clamp(1.5rem, 4svh, 3rem);
+        padding-bottom: clamp(1.5rem, 4svh, 3rem);
+      }
+      h1 { margin-top: clamp(0.9rem, 2svh, 1.35rem); font-size: clamp(4rem, 12svh, 6.5rem); }
+      .intro { margin-top: clamp(0.8rem, 1.8svh, 1.2rem); line-height: 1.5; }
+      .gate { margin-top: clamp(1rem, 2svh, 1.4rem); padding: 0.8rem; }
+      .telemetry { min-height: clamp(17rem, 47svh, 26rem); }
+      .perimeter { width: auto; max-width: 80%; height: min(41svh, 24rem); }
+      .feed-item { min-height: 3.25rem; padding: 0.55rem 0.65rem; }
+    }
+
+    @media (min-width: 58.01rem) and (max-height: 44rem) {
+      footer { margin-bottom: 0; padding-block: 0.4rem; }
+      footer img { width: 6rem; }
+    }
+
     @media (max-width: 58rem) {
       main { grid-template-columns: 1fr; align-items: start; padding-top: 4rem; }
       .gate-copy { max-width: 46rem; }
