@@ -10,457 +10,226 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Figtree:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
-    /* ─── Tokens ─── */
     :root {
-      --bg: #f6f3ed;
-      --bg-alt: #edeae2;
-      --text: #1a1815;
-      --text-mid: #3d3833;
-      --text-secondary: #5c5651;
-      --text-tertiary: #9c968f;
-      --accent: #a0440d;
-      --accent-warm: #c67b2e;
-      --accent-faint: rgba(160, 68, 13, 0.12);
-      --rule: #dad6cd;
-
-      --font-display: 'Fraunces', 'Georgia', serif;
-      --font-body: 'Figtree', system-ui, sans-serif;
-
-      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
-      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --paper: #fffbf5;
+      --paper-2: #f7f2ea;
+      --ink: #171717;
+      --ink-soft: #4e4a45;
+      --ink-faint: #77716a;
+      --ember: #f05a22;
+      --ember-bright: #ff7038;
+      --line: #d8d2ca;
+      --signal: #d7ff64;
+      --sans: 'Instrument Sans', 'Helvetica Neue', sans-serif;
+      --mono: 'IBM Plex Mono', monospace;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --gutter: clamp(0.75rem, 3vw, 2.75rem);
     }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; }
+    * { margin: 0; }
 
-    html {
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+    html { min-width: 20rem; background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100svh; display: flex; flex-direction: column; background: radial-gradient(circle at 1px 1px, rgba(23,23,23,.05) 1px, transparent 0) 0 0 / 24px 24px, var(--paper); font-family: var(--sans); }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    ::selection { background: var(--ember); color: #fff; }
+    :focus-visible { outline: 3px solid var(--ember-bright); outline-offset: 3px; }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
-      font-weight: 400;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* ─── Header ─── */
     .site-header {
-      padding: clamp(0.625rem, 1.2vw, 0.875rem) clamp(1.5rem, 5vw, 4rem);
+      width: calc(100% - (var(--gutter) * 2));
+      max-width: 90rem;
+      min-height: 4.25rem;
+      margin: .65rem auto 0;
+      padding: .55rem .55rem .55rem .9rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--bg);
-      border-bottom: 1px solid var(--rule);
+      border: 1px solid var(--line);
+      background: rgba(255,251,245,.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
 
-    .logo {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      text-decoration: none;
-      gap: 1px;
+    .logo { min-height: 2.9rem; display: flex; align-items: center; gap: .65rem; text-decoration: none; }
+    .logo-img { width: auto; height: 2.35rem; }
+    .logo-sub { padding-left: .65rem; border-left: 1px solid var(--line); font: 600 .62rem/1.25 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .header-link { min-height: 3rem; display: inline-flex; align-items: center; gap: .7rem; padding: .7rem 1rem; border: 1px solid var(--ink); background: var(--ink); color: #fff; font-size: .82rem; font-weight: 600; text-decoration: none; transition: background-color 160ms ease, border-color 160ms ease, transform 160ms var(--ease-out); }
+    .header-link:hover { background: var(--ember); border-color: var(--ember); color: var(--ink); }
+    .header-link:active { transform: translateY(1px) scale(.98); }
+
+    .status-strip { width: calc(100% - (var(--gutter) * 2)); max-width: 90rem; min-height: 2.25rem; margin: .5rem auto 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .65rem .75rem; border: 1px solid var(--line); background: var(--paper); color: var(--ink-faint); font: 500 .62rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .status-live { display: inline-flex; align-items: center; gap: .5rem; color: var(--ink); }
+    .status-dot { width: .45rem; height: .45rem; background: var(--ember); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+
+    main { width: min(100%, 90rem); flex: 1; margin-inline: auto; padding: clamp(3rem, 7vw, 6.5rem) var(--gutter); display: grid; grid-template-columns: minmax(0,.88fr) minmax(26rem,1.12fr); gap: clamp(2.5rem, 7vw, 7rem); align-items: center; }
+
+    .gate-copy { max-width: 38rem; }
+    .eyebrow { display: inline-flex; align-items: center; gap: .55rem; color: var(--ink-faint); font: 600 .68rem/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; opacity: 0; animation: fadeUp 700ms var(--ease-out) 80ms forwards; }
+    .eyebrow::before { width: .5rem; height: .5rem; background: var(--ember); content: ''; }
+    h1 { max-width: 8ch; margin-top: clamp(1.5rem,3vw,2.2rem); font-size: clamp(4rem,7.8vw,7.6rem); font-weight: 600; line-height: .88; letter-spacing: -.075em; }
+    .title-line { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+    .title-line span { display: block; opacity: 0; transform: translateY(105%); animation: titleIn 900ms var(--ease-out) forwards; }
+    .title-line:nth-child(1) span { animation-delay: 180ms; }
+    .title-line:nth-child(2) span { color: var(--ember); animation-delay: 300ms; }
+    .intro { max-width: 35rem; margin-top: 1.7rem; color: var(--ink-soft); font-size: clamp(1rem,1.4vw,1.13rem); line-height: 1.65; opacity: 0; animation: fadeUp 700ms var(--ease-out) 560ms forwards; }
+    .intro a { text-decoration-color: var(--ember); text-underline-offset: 4px; }
+
+    .gate { max-width: 34rem; margin-top: 2.25rem; padding: 1rem; position: relative; border: 1px solid var(--line); background: rgba(255,251,245,.9); opacity: 0; animation: fadeUp 700ms var(--ease-out) 680ms forwards; }
+    .corner { position: absolute; width: 7px; height: 7px; background: var(--paper); border: 1px solid var(--ink); pointer-events: none; }
+    .corner.tl { top: -4px; left: -4px; }.corner.tr { top: -4px; right: -4px; }.corner.bl { bottom: -4px; left: -4px; }.corner.br { right: -4px; bottom: -4px; }
+    .gate-label { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .65rem; color: var(--ink-faint); font: 600 .62rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .gate-form { display: grid; grid-template-columns: minmax(0,1fr) auto; }
+    .gate-form input { min-width: 0; min-height: 3.55rem; padding: .85rem 1rem; border: 1px solid var(--ink); border-right: 0; background: var(--paper); color: var(--ink); font-family: var(--mono); font-size: 1rem; border-radius: 0; }
+    .gate-form input::placeholder { color: var(--ink-faint); }
+    .gate-form button { min-width: 7rem; min-height: 3.55rem; padding: .8rem 1rem; border: 1px solid var(--ink); background: var(--ink); color: #fff; font-weight: 600; cursor: pointer; transition: background-color 160ms ease, border-color 160ms ease, transform 160ms var(--ease-out); }
+    .gate-form button:hover { background: var(--ember); border-color: var(--ember); color: var(--ink); }
+    .gate-form button:active { transform: translateY(1px) scale(.98); }
+    .gate-form button[aria-busy="true"] { background: var(--ember); border-color: var(--ember); color: var(--ink); cursor: wait; }
+    .gate-error { margin-bottom: .75rem; padding: .75rem; display: flex; align-items: flex-start; gap: .55rem; border: 1px solid var(--ember); background: rgba(240,90,34,.08); color: var(--ink); font: 500 .7rem/1.5 var(--mono); }
+    .gate-error::before { content: '×'; color: var(--ember); font-size: 1rem; font-weight: 600; line-height: 1; }
+
+    .preview-console { position: relative; border: 1px solid var(--line); background: rgba(255,251,245,.9); box-shadow: 0 32px 70px rgba(79,46,25,.12); opacity: 0; transform: scale(.97) translateY(12px); animation: consoleIn 1100ms var(--ease-out) 260ms forwards; }
+    .console-head, .console-foot { min-height: 2.8rem; padding: .7rem .85rem; display: flex; align-items: center; justify-content: space-between; gap: .8rem; border-bottom: 1px solid var(--line); color: var(--ink-faint); font: 500 .61rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .console-head strong { display: inline-flex; align-items: center; gap: .5rem; color: var(--ink); }
+    .console-head strong::before { width: .45rem; height: .45rem; background: var(--ember); border-radius: 50%; content: ''; animation: pulse 2s ease-in-out infinite; }
+    .console-foot { min-height: 2.4rem; border-top: 1px solid var(--line); border-bottom: 0; }
+
+    .telemetry { min-height: 33rem; position: relative; display: grid; place-items: center; overflow: hidden; background: linear-gradient(rgba(23,23,23,.05) 1px, transparent 1px), linear-gradient(90deg,rgba(23,23,23,.05) 1px,transparent 1px), var(--paper-2); background-size: 3.5rem 3.5rem; }
+    .perimeter { width: min(80%,31rem); aspect-ratio: 1.16; position: relative; }
+    .ring { position: absolute; inset: var(--inset); border: 1px solid var(--line); border-radius: 48% 52% 58% 42% / 45% 56% 44% 55%; transform: rotate(var(--rotate)); }
+    .ring.active { border: 1.5px dashed var(--ember); animation: dashRotate 22s linear infinite; }
+    .ring.core { border-color: rgba(240,90,34,.55); background: rgba(240,90,34,.06); }
+    .map-point { position: absolute; width: .5rem; height: .5rem; background: var(--ember); border-radius: 50%; box-shadow: 0 0 0 9px rgba(240,90,34,.1); animation: pulse 2s ease-in-out infinite; }
+    .map-point.one { top: 18%; left: 23%; }.map-point.two { top: 51%; right: 17%; animation-delay: -.7s; }.map-point.three { bottom: 18%; left: 42%; animation-delay: -1.3s; }
+    .preview-feed { position: absolute; right: .75rem; bottom: .75rem; width: min(18rem,calc(100% - 1.5rem)); display: grid; gap: .4rem; }
+    .feed-item { min-height: 3.6rem; padding: .65rem .75rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .6rem; border: 1px solid rgba(23,23,23,.2); background: rgba(255,251,245,.95); box-shadow: 0 10px 25px rgba(23,23,23,.08); font-family: var(--mono); opacity: 0; transform: translateY(-16px); filter: blur(3px); animation: feedIn 700ms var(--ease-out) forwards; }
+    .feed-item:nth-child(1) { animation-delay: 1.2s; }.feed-item:nth-child(2) { animation-delay: 1.45s; }
+    .feed-code { color: var(--ember); font-size: .61rem; font-weight: 600; }.feed-text { font-size: .62rem; line-height: 1.35; }.feed-time { color: var(--ink-faint); font-size: .55rem; }
+
+    footer { width: calc(100% - (var(--gutter) * 2)); max-width: 90rem; margin: auto auto .65rem; padding: .85rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); color: var(--ink-faint); font: 500 .6rem/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+    footer img { width: 7.5rem; height: auto; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    @keyframes titleIn { to { opacity: 1; transform: none; } }
+    @keyframes consoleIn { to { opacity: 1; transform: none; } }
+    @keyframes feedIn { to { opacity: 1; transform: none; filter: none; } }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .3; transform: scale(.86); } }
+    @keyframes dashRotate { to { transform: rotate(calc(var(--rotate) + 360deg)); } }
+
+    @media (max-width: 58rem) {
+      main { grid-template-columns: 1fr; align-items: start; padding-top: 4rem; }
+      .gate-copy { max-width: 46rem; }
+      h1 { font-size: clamp(4.2rem,13vw,7.3rem); }
+      .preview-console { width: min(100%,43rem); }
     }
 
-    .logo-img { height: 44px; width: auto; display: block; }
-
-    .logo-sub {
-      font-size: 0.5625rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-tertiary);
-      margin-left: -0.06em;
+    @media (max-width: 42rem) {
+      :root { --gutter: .75rem; }
+      .site-header { min-height: 3.8rem; margin-top: .5rem; padding: .4rem .4rem .4rem .7rem; }
+      .logo-img { height: 2rem; }.logo-sub { display: none; }.header-link { min-height: 2.9rem; padding-inline: .8rem; }
+      .status-strip { margin-top: .4rem; }.status-strip > span:last-child { display: none; }
+      main { padding-top: 3.7rem; padding-bottom: 4.5rem; }
+      h1 { font-size: clamp(3.7rem,18vw,5.2rem); }
+      .gate { padding: .75rem; }
+      .gate-form { grid-template-columns: 1fr; }
+      .gate-form input { border-right: 1px solid var(--ink); border-bottom: 0; }
+      .gate-form button { width: 100%; }
+      .telemetry { min-height: 25rem; place-items: start center; }
+      .perimeter { width: 96%; margin-top: 1rem; }
+      .preview-feed { right: .5rem; bottom: .5rem; left: .5rem; width: auto; }
+      .console-head > span:last-child, .console-foot > span:last-child { display: none; }
+      footer { align-items: flex-start; flex-direction: column; }
     }
 
-    .header-link {
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-      text-decoration: none;
-      letter-spacing: 0.02em;
-      transition: color 200ms;
-    }
-    .header-link:hover { color: var(--accent); }
-
-    /* ─── Hero (reused from homepage) ─── */
-    .hero {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: clamp(2rem, 4vw, 4rem);
-      align-items: center;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+    @media (max-width: 23rem) {
+      h1 { font-size: 3.45rem; }
+      .feed-item { grid-template-columns: auto 1fr; }.feed-time { display: none; }
     }
 
-    .hero-eyebrow {
-      font-size: 0.6875rem;
-      font-weight: 550;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.75rem;
-      opacity: 0;
-      transform: translateY(8px);
-      animation: fadeUp 600ms var(--ease-out-quart) 100ms forwards;
-    }
-
-    .hero-headline {
-      font-family: var(--font-display);
-      font-size: clamp(2.25rem, 4.5vw, 3.75rem);
-      font-weight: 750;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: clamp(1.5rem, 3vw, 2rem);
-    }
-
-    .hero-headline .line {
-      display: block;
-      overflow: hidden;
-      padding-bottom: 0.12em;
-      margin-bottom: -0.12em;
-    }
-    .hero-headline .line span {
-      display: block;
-      opacity: 0;
-      transform: translateY(105%);
-      animation: revealLine 800ms var(--ease-out-expo) forwards;
-    }
-    .hero-headline .line:nth-child(1) span { animation-delay: 250ms; }
-    .hero-headline .line:nth-child(2) span { animation-delay: 420ms; }
-
-    .hero-sub {
-      font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
-      line-height: 1.7;
-      color: var(--text-secondary);
-      max-width: 48ch;
-      opacity: 0;
-      transform: translateY(12px);
-      animation: fadeUp 700ms var(--ease-out-quart) 650ms forwards;
-    }
-    .hero-sub a {
-      color: var(--accent);
-      text-decoration: underline;
-      text-decoration-color: var(--accent-faint);
-      text-underline-offset: 2px;
-    }
-    .hero-sub a:hover { color: var(--accent-warm); }
-
-    .hero-vis {
-      justify-self: center;
-      width: 100%;
-      max-width: 480px;
-      opacity: 0;
-      animation: fadeUp 800ms var(--ease-out-quart) 200ms forwards;
-    }
-    .hero-map { width: 100%; height: auto; display: block; }
-    .map-grid { opacity: 0; animation: fadeIn 800ms ease 300ms forwards; }
-    .contour { fill: none; stroke-dasharray: 1; stroke-dashoffset: 1; }
-    .c1 { animation: drawPath 1.6s var(--ease-out-expo) 400ms forwards; }
-    .c2 { animation: drawPath 1.4s var(--ease-out-expo) 600ms forwards; }
-    .c-fire-draw {
-      animation:
-        drawPath 1.2s var(--ease-out-expo) 800ms forwards,
-        fadeOut 250ms ease 2000ms forwards;
-    }
-    .c-fire-dash {
-      fill: none;
-      stroke-dasharray: 0.025 0.013;
-      opacity: 0;
-      animation:
-        fadeIn 300ms ease 2000ms forwards,
-        fireDash 5s linear 2000ms infinite;
-    }
-    .c4 { animation: drawPath 1s var(--ease-out-expo) 1000ms forwards; }
-    .map-labels, .map-coords, .map-scale { opacity: 0; animation: fadeIn 600ms ease 2.2s forwards; }
-    .live-dot { animation: livePulse 2s ease-in-out infinite; }
-    .data-point { opacity: 0; transform-box: fill-box; transform-origin: center; animation: pointPop 500ms var(--ease-out-quart) forwards; }
-    .dp1 { animation-delay: 1.8s; }
-    .dp2 { animation-delay: 1.95s; }
-    .dp3 { animation-delay: 2.1s; }
-    .point-ring {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: ringPulse 3s ease-out infinite;
-    }
-    .dp1 .point-ring { animation-delay: 2.5s; }
-    .dp2 .point-ring { animation-delay: 2.8s; }
-    .dp3 .point-ring { animation-delay: 3.1s; }
-
-    /* ─── Gate form ─── */
-    .gate-label {
-      font-size: 0.6875rem;
-      font-weight: 550;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-tertiary);
-      margin-top: clamp(1.75rem, 3vw, 2.5rem);
-      margin-bottom: 0.625rem;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeUp 700ms var(--ease-out-quart) 800ms forwards;
-    }
-
-    .gate-form {
-      display: flex;
-      gap: 0.75rem;
-      max-width: 26rem;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeUp 700ms var(--ease-out-quart) 850ms forwards;
-    }
-
-    .gate-form input[type="password"] {
-      flex: 1;
-      min-width: 0;
-      font-family: var(--font-body);
-      font-size: 0.9375rem;
-      color: var(--text);
-      background: #fff;
-      border: 1px solid var(--rule);
-      border-radius: 3px;
-      padding: 0.75rem 0.9375rem;
-      outline: none;
-      transition: border-color 150ms;
-    }
-    .gate-form input[type="password"]:focus { border-color: var(--accent); }
-
-    .gate-form button {
-      font-family: var(--font-body);
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: #fff;
-      background: var(--accent);
-      border: none;
-      border-radius: 3px;
-      padding: 0 1.5rem;
-      cursor: pointer;
-      transition: background 150ms;
-      flex-shrink: 0;
-    }
-    .gate-form button:hover { background: var(--accent-warm); }
-
-    .gate-error {
-      display: flex;
-      align-items: baseline;
-      gap: 0.625rem;
-      font-size: 0.8125rem;
-      color: var(--accent);
-      font-weight: 500;
-      margin-top: clamp(1.75rem, 3vw, 2.5rem);
-      max-width: 26rem;
-    }
-    .gate-error::before {
-      content: '';
-      width: 8px;
-      height: 1.5px;
-      background: var(--accent);
-      flex-shrink: 0;
-      transform: translateY(-2px);
-    }
-
-    /* ─── Footer ─── */
-    .site-footer {
-      padding: clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 5vw, 4rem);
-      border-top: 1px solid var(--rule);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .footer-copy { font-size: 0.75rem; color: var(--text-tertiary); }
-
-    /* ─── Keyframes ─── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes revealLine {
-      from { opacity: 0; transform: translateY(105%); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes drawPath { to { stroke-dashoffset: 0; } }
-    @keyframes fireDash { to { stroke-dashoffset: -0.076; } }
-    @keyframes livePulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.25; }
-    }
-    @keyframes pointPop {
-      from { opacity: 0; transform: scale(0); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-    @keyframes ringPulse {
-      0%   { transform: scale(1); opacity: 0.55; }
-      100% { transform: scale(2); opacity: 0; }
-    }
-
-    /* ─── Reduced Motion ─── */
     @media (prefers-reduced-motion: reduce) {
-      .hero-eyebrow, .hero-headline .line span, .hero-sub, .hero-vis,
-      .gate-label, .gate-form { animation: none; opacity: 1; transform: none; }
-      .contour, .c-fire-draw { animation: none; stroke-dashoffset: 0; }
-      .c-fire-dash { animation: none; opacity: 1; }
-      .c-fire-draw { opacity: 0; }
-      .map-grid, .map-labels, .map-coords, .map-scale { animation: none; opacity: 1; }
-      .data-point { animation: none; opacity: 1; transform: none; }
-      .point-ring { animation: none; opacity: 0; }
-      .live-dot { animation: none; }
-    }
-
-    /* ─── Responsive ─── */
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-vis { max-width: 380px; justify-self: start; }
-    }
-    @media (max-width: 480px) {
-      .gate-form { flex-direction: column; }
-      .gate-form button { padding: 0.8125rem 1.5rem; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .eyebrow, .title-line span, .intro, .gate, .preview-console, .feed-item { opacity: 1; transform: none; filter: none; }
     }
   </style>
 </head>
 <body>
-
   <header class="site-header">
-    <a href="/" class="logo">
-      <img src="allblack.png" alt="Phoenix Fire Labs" class="logo-img" />
-      <span class="logo-sub">Fire Labs</span>
+    <a href="/" class="logo" aria-label="Phoenix Fire Labs home">
+      <img src="allblack.png" alt="Phoenix Fire Labs" class="logo-img">
+      <span class="logo-sub">Private<br>Preview</span>
     </a>
-    <a href="mailto:founders@phoenixfirelabs.com" class="header-link">Contact</a>
+    <a href="mailto:founders@phoenixfirelabs.com" class="header-link">Contact founders</a>
   </header>
 
+  <div class="status-strip" aria-label="Preview status"><span class="status-live"><span class="status-dot" aria-hidden="true"></span>Access gate online</span><span data-clock>UTC --:--:--</span></div>
+
   <main>
-    <section class="hero">
-      <div class="hero-content">
-        <div class="hero-eyebrow">Private Preview</div>
-        <h1 class="hero-headline">
-          <span class="line"><span>Hey!</span></span>
-          <span class="line"><span>You found us.</span></span>
-        </h1>
-        <p class="hero-sub">
-          We're building something pretty awesome, but we aren't ready to show
-          everyone just yet. Reach out to
-          <a href="mailto:founders@phoenixfirelabs.com">founders@phoenixfirelabs.com</a>
-          to learn more — and maybe even get the secret password to our site!
-        </p>
+    <section class="gate-copy" aria-labelledby="login-title">
+      <div class="eyebrow">Private preview / Authorized access</div>
+      <h1 id="login-title"><span class="title-line"><span>You found</span></span><span class="title-line"><span>Phoenix.</span></span></h1>
+      <p class="intro">We are building something for the fireline, but we are not ready to show everyone just yet. Reach out to <a href="mailto:founders@phoenixfirelabs.com">founders@phoenixfirelabs.com</a> to learn more and request preview access.</p>
 
-        <div class="gate-error" id="login-error" style="display:none;">That password didn't work — give it another try.</div>
-
-        <div class="gate-label">Password</div>
-        <form method="POST" action="/api/login" class="gate-form">
+      <div class="gate">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <div class="gate-error" id="login-error" role="alert" style="display:none;">That password did not work. Check it and try again.</div>
+        <label class="gate-label" for="password"><span>Preview password</span><span>Secure entry</span></label>
+        <form method="POST" action="/api/login" class="gate-form" data-login-form>
           <input type="hidden" name="redirect" id="redirect-field" value="/">
-          <input type="password" id="password" name="password" autocomplete="current-password" autofocus required>
-          <button type="submit">Enter</button>
+          <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter access code" autofocus required>
+          <button type="submit" data-submit>Enter preview</button>
         </form>
       </div>
+    </section>
 
-      <div class="hero-vis" aria-hidden="true">
-        <svg class="hero-map" viewBox="0 0 480 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g class="map-grid">
-            <line x1="0" y1="100" x2="480" y2="100" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
-            <line x1="0" y1="200" x2="480" y2="200" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
-            <line x1="0" y1="300" x2="480" y2="300" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
-            <line x1="120" y1="0" x2="120" y2="400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
-            <line x1="240" y1="0" x2="240" y2="400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
-            <line x1="360" y1="0" x2="360" y2="400" stroke="var(--rule)" stroke-width="0.5" stroke-dasharray="2 6"/>
-          </g>
-
-          <path class="contour c1"
-            d="M 55,295 C 42,232 68,158 128,112 C 188,66 268,52 342,62 C 416,72 460,132 467,198 C 474,264 456,324 400,358 C 344,392 252,396 182,376 C 112,356 68,358 55,295 Z"
-            stroke="var(--text-tertiary)" stroke-width="0.75" pathLength="1" opacity="0.45"/>
-
-          <path class="contour c2"
-            d="M 108,274 C 98,222 118,172 168,140 C 218,108 294,96 352,110 C 410,124 440,170 444,228 C 448,286 430,328 384,350 C 338,372 250,376 194,358 C 138,340 118,326 108,274 Z"
-            stroke="var(--text-tertiary)" stroke-width="0.75" pathLength="1" opacity="0.55"/>
-
-          <path class="contour c-fire-draw"
-            d="M 162,255 C 157,218 172,184 212,160 C 252,136 318,127 360,144 C 402,161 422,200 420,240 C 418,280 402,312 370,330 C 338,348 264,352 222,334 C 180,316 167,292 162,255 Z"
-            stroke="var(--accent)" stroke-width="1.5" pathLength="1"/>
-
-          <path class="c-fire-dash"
-            d="M 162,255 C 157,218 172,184 212,160 C 252,136 318,127 360,144 C 402,161 422,200 420,240 C 418,280 402,312 370,330 C 338,348 264,352 222,334 C 180,316 167,292 162,255 Z"
-            stroke="var(--accent)" stroke-width="1.5" pathLength="1"/>
-
-          <path class="contour c4"
-            d="M 228,240 C 225,218 238,200 268,185 C 298,170 335,168 358,180 C 381,192 390,214 388,238 C 386,262 374,280 350,290 C 326,300 278,302 255,292 C 232,282 231,262 228,240 Z"
-            stroke="var(--accent)" stroke-width="0.75" pathLength="1" opacity="0.45"/>
-
-          <g class="map-labels">
-            <text x="66" y="300" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif">1200</text>
-            <text x="116" y="280" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif">1400</text>
-            <text x="170" y="260" fill="var(--accent)" font-size="7.5" font-family="Figtree, system-ui, sans-serif" font-weight="500">1600</text>
-            <text x="235" y="245" fill="var(--accent)" font-size="7" font-family="Figtree, system-ui, sans-serif" opacity="0.55">1800</text>
-          </g>
-
-          <g class="map-labels">
-            <text x="365" y="150" fill="var(--accent)" font-size="6.5" font-family="Figtree, system-ui, sans-serif" font-weight="600" letter-spacing="0.08em" opacity="0.7">ACTIVE PERIMETER</text>
-          </g>
-
-          <g class="data-points">
-            <g transform="translate(142, 132)">
-              <g class="data-point dp1">
-                <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
-                <circle r="3.5" fill="var(--accent)"/>
-              </g>
-            </g>
-            <g transform="translate(418, 198)">
-              <g class="data-point dp2">
-                <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
-                <circle r="3.5" fill="var(--accent)"/>
-              </g>
-            </g>
-            <g transform="translate(305, 352)">
-              <g class="data-point dp3">
-                <circle r="10" fill="var(--accent)" opacity="0" class="point-ring"/>
-                <circle r="3.5" fill="var(--accent)"/>
-              </g>
-            </g>
-          </g>
-
-          <g class="map-coords">
-            <text x="385" y="24" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif" letter-spacing="0.04em">34.05°N</text>
-            <text x="420" y="388" fill="var(--text-tertiary)" font-size="7.5" font-family="Figtree, system-ui, sans-serif" letter-spacing="0.04em">118.52°W</text>
-          </g>
-
-          <g class="map-labels" transform="translate(435, 50)">
-            <circle r="3" fill="var(--accent)" class="live-dot"/>
-            <text x="8" y="3.5" fill="var(--accent)" font-size="7" font-family="Figtree, system-ui, sans-serif" font-weight="700" letter-spacing="0.1em">LIVE</text>
-          </g>
-
-          <g class="map-scale" transform="translate(18, 380)">
-            <line x1="0" y1="0" x2="42" y2="0" stroke="var(--text-tertiary)" stroke-width="1"/>
-            <line x1="0" y1="-3" x2="0" y2="3" stroke="var(--text-tertiary)" stroke-width="1"/>
-            <line x1="42" y1="-3" x2="42" y2="3" stroke="var(--text-tertiary)" stroke-width="1"/>
-            <text x="10" y="12" fill="var(--text-tertiary)" font-size="7" font-family="Figtree, system-ui, sans-serif">500m</text>
-          </g>
-        </svg>
+    <section class="preview-console" aria-label="Phoenix incident intelligence preview">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="console-head"><strong>Incident view / Preview</strong><span>34.05°N · 118.52°W</span></div>
+      <div class="telemetry" aria-hidden="true">
+        <div class="perimeter">
+          <div class="ring" style="--inset:0%;--rotate:8deg"></div>
+          <div class="ring active" style="--inset:16%;--rotate:-12deg"></div>
+          <div class="ring core" style="--inset:32%;--rotate:18deg"></div>
+          <span class="map-point one"></span><span class="map-point two"></span><span class="map-point three"></span>
+        </div>
+        <div class="preview-feed">
+          <div class="feed-item"><span class="feed-code">LOC</span><span class="feed-text">Division Alpha · ridge approach</span><span class="feed-time">00:04</span></div>
+          <div class="feed-item"><span class="feed-code">EVENT</span><span class="feed-text">Structured signal ready for map</span><span class="feed-time">00:09</span></div>
+        </div>
       </div>
+      <div class="console-foot"><span>Radio → structure → geospatial</span><span>Restricted view</span></div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <img src="allblack.png" alt="Phoenix Fire Labs" style="height:24px;width:auto;display:block;" />
-    <div class="footer-copy">&copy; 2026 Phoenix Fire Labs</div>
-  </footer>
+  <footer><img src="allblack.png" alt="Phoenix Fire Labs"><span>© 2026 Phoenix Fire Labs · Wildfire command intelligence</span></footer>
 
   <script>
-    var params = new URLSearchParams(window.location.search);
-    var redirectParam = params.get('redirect');
-    if (redirectParam && redirectParam.startsWith('/') && !redirectParam.startsWith('//') && !redirectParam.includes('://')) {
-      document.getElementById('redirect-field').value = redirectParam;
-    }
-    if (params.get('error') === '1') {
-      document.getElementById('login-error').style.display = 'flex';
-    }
+    (function () {
+      'use strict';
+      var params = new URLSearchParams(window.location.search);
+      var redirectParam = params.get('redirect');
+      if (redirectParam && redirectParam.startsWith('/') && !redirectParam.startsWith('//') && !redirectParam.includes('://')) {
+        document.getElementById('redirect-field').value = redirectParam;
+      }
+      if (params.get('error') === '1') {
+        document.getElementById('login-error').style.display = 'flex';
+      }
+
+      function updateClock() {
+        document.querySelector('[data-clock]').textContent = 'UTC ' + new Date().toISOString().slice(11, 19);
+      }
+      updateClock();
+      window.setInterval(updateClock, 1000);
+
+      document.querySelector('[data-login-form]').addEventListener('submit', function () {
+        var submit = document.querySelector('[data-submit]');
+        submit.textContent = 'Checking access…';
+        submit.setAttribute('aria-busy', 'true');
+      });
+    }());
   </script>
 </body>
 </html>
